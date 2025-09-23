@@ -9,5 +9,8 @@ export interface Token {
   marketCap: number;
   volume24h: number;
   change24h: number;
+  totalSupply?: number | null;
+  maxSupply?: number | null;
+  circulatingSupply?: number | null;
   isNative?: boolean;
 }
