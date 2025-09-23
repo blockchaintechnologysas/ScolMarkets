@@ -20,6 +20,8 @@ Panel profesional inspirado en CoinMarketCap para mostrar los tokens principales
 npm install
 ```
 
+Si prefieres seguir los pasos desde el **Símbolo del sistema de Windows**, consulta la guía detallada en [`docs/guia-simbolo-del-sistema.md`](docs/guia-simbolo-del-sistema.md).
+
 ## Variables de entorno
 
 La configuración vive en el archivo `.env`. Se incluye un archivo `.env.example` como referencia. Copia el archivo y ajusta los valores a los de tu proyecto:
