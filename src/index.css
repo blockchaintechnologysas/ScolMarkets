@@ -14,11 +14,7 @@
   --accent-contrast: #3d1600;
   --accent-shadow: 0 12px 28px rgba(255, 138, 61, 0.25);
 
-  --header-background: linear-gradient(
-    135deg,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(255, 232, 207, 0.92) 100%
-  );
+  --header-background: #ffffff;
   --header-border: rgba(255, 173, 94, 0.35);
   --header-shadow: 0 24px 48px rgba(255, 138, 61, 0.18);
   --header-highlight: radial-gradient(circle at top right, rgba(255, 163, 102, 0.28), transparent 55%);
@@ -30,14 +26,14 @@
   --control-focus: rgba(255, 138, 61, 0.45);
   --focus-ring: rgba(255, 138, 61, 0.18);
 
-  --stat-background: linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(255, 239, 224, 0.9));
+  --stat-background: #ffffff;
   --stat-border: rgba(255, 173, 94, 0.24);
   --stat-shadow: 0 20px 45px rgba(255, 138, 61, 0.15);
 
-  --disclaimer-background: rgba(255, 173, 94, 0.12);
+  --disclaimer-background: #ffffff;
   --disclaimer-text: #8a4212;
 
-  --table-container-bg: rgba(255, 255, 255, 0.95);
+  --table-container-bg: #ffffff;
   --table-border: rgba(255, 173, 94, 0.24);
   --table-shadow: 0 20px 50px rgba(209, 118, 40, 0.18);
   --table-header-bg: linear-gradient(135deg, rgba(255, 243, 231, 0.95), rgba(255, 224, 196, 0.9));
@@ -62,7 +58,7 @@
   --link-shadow: 0 10px 25px rgba(255, 138, 61, 0.22);
   --link-shadow-hover: 0 16px 36px rgba(255, 138, 61, 0.28);
 
-  --empty-bg: rgba(255, 255, 255, 0.95);
+  --empty-bg: #ffffff;
   --empty-text: #5f6c7b;
 
   --selection-bg: rgba(255, 138, 61, 0.2);
