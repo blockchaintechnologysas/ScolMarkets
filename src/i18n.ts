@@ -13,7 +13,7 @@ const resources = {
         lastUpdated: 'Last update',
         notAvailable: 'Not available',
         disclaimerTitle: 'Stay informed',
-        disclaimer: 'All metrics are illustrative and sourced from the configured environment feed.',
+        disclaimer: 'All metrics are based on Smart Contract pricing feeds.',
       },
       status: {
         loading: 'Loading on-chain prices…',
@@ -91,7 +91,7 @@ const resources = {
         lastUpdated: 'Dernière mise à jour',
         notAvailable: 'Non disponible',
         disclaimerTitle: 'Informations clés',
-        disclaimer: 'Toutes les métriques sont indicatives et proviennent de la configuration de l’environnement.',
+        disclaimer: 'Toutes les métriques sont basées sur des prix issus de Smart Contracts.',
       },
       status: {
         loading: 'Chargement des prix on-chain…',
@@ -130,7 +130,7 @@ const resources = {
         lastUpdated: 'अंतिम अद्यतन',
         notAvailable: 'उपलब्ध नहीं',
         disclaimerTitle: 'महत्वपूर्ण जानकारी',
-        disclaimer: 'सभी आँकड़े उदाहरणार्थ हैं और पर्यावरण विन्यास से प्राप्त होते हैं।',
+        disclaimer: 'सभी आँकड़े स्मार्ट कॉन्ट्रैक्ट प्राइसिंग पर आधारित हैं।',
       },
       status: {
         loading: 'ऑन-चेन मूल्य लोड हो रहे हैं…',
@@ -169,7 +169,7 @@ const resources = {
         lastUpdated: '最近更新时间',
         notAvailable: '暂无数据',
         disclaimerTitle: '重要提示',
-        disclaimer: '所有指标仅供参考，来源于环境配置的数据。',
+        disclaimer: '所有指标均基于智能合约定价数据。',
       },
       status: {
         loading: '正在加载链上价格…',
@@ -208,7 +208,7 @@ const resources = {
         lastUpdated: 'Время последнего обновления',
         notAvailable: 'Недоступно',
         disclaimerTitle: 'Важная информация',
-        disclaimer: 'Все показатели являются демонстрационными и поступают из настроек окружения.',
+        disclaimer: 'Все показатели основаны на ценах из смарт-контрактов.',
       },
       status: {
         loading: 'Загружаем цены из блокчейна…',
@@ -247,7 +247,7 @@ const resources = {
         lastUpdated: 'آخر تحديث',
         notAvailable: 'غير متوفر',
         disclaimerTitle: 'معلومات مهمة',
-        disclaimer: 'جميع المؤشرات توضيحية ويتم الحصول عليها من إعدادات بيئة العمل.',
+        disclaimer: 'جميع المؤشرات تعتمد على تسعير قائم على العقود الذكية.',
       },
       status: {
         loading: 'جاري تحميل الأسعار من السلسلة…',
@@ -286,7 +286,7 @@ const resources = {
         lastUpdated: 'Letzte Aktualisierung',
         notAvailable: 'Nicht verfügbar',
         disclaimerTitle: 'Wichtige Hinweise',
-        disclaimer: 'Alle Kennzahlen dienen nur zur Veranschaulichung und stammen aus der Umgebungs-Konfiguration.',
+        disclaimer: 'Alle Kennzahlen basieren auf Smart-Contract-Preisfeeds.',
       },
       status: {
         loading: 'On-Chain-Preise werden geladen…',
