@@ -11,7 +11,13 @@ const resources = {
         listed: '{{count}} tokens listed',
         updated: 'Data refreshed {{time}}',
         lastUpdated: 'Last update',
+        notAvailable: 'Not available',
         disclaimer: 'All metrics are illustrative and sourced from the configured environment feed.',
+      },
+      status: {
+        loading: 'Loading on-chain prices…',
+        error: 'Unable to update prices from the blockchain. Showing configured values.',
+        missingConfig: 'Set the price contract address and RPC endpoint to enable live prices.',
       },
       table: {
         headers: {
@@ -38,7 +44,13 @@ const resources = {
         listed: '{{count}} tokens listados',
         updated: 'Datos actualizados {{time}}',
         lastUpdated: 'Última actualización',
+        notAvailable: 'No disponible',
         disclaimer: 'Todos los indicadores son ilustrativos y provienen de la configuración del entorno.',
+      },
+      status: {
+        loading: 'Cargando precios on-chain…',
+        error: 'No fue posible actualizar los precios desde la blockchain. Se muestran los valores configurados.',
+        missingConfig: 'Configura la dirección del contrato y el nodo RPC para habilitar los precios en vivo.',
       },
       table: {
         headers: {
@@ -65,7 +77,13 @@ const resources = {
         listed: '{{count}} tokens répertoriés',
         updated: 'Données actualisées {{time}}',
         lastUpdated: 'Dernière mise à jour',
+        notAvailable: 'Non disponible',
         disclaimer: 'Toutes les métriques sont indicatives et proviennent de la configuration de l’environnement.',
+      },
+      status: {
+        loading: 'Chargement des prix on-chain…',
+        error: 'Impossible de mettre à jour les prix depuis la blockchain. Affichage des valeurs configurées.',
+        missingConfig: 'Configurez l’adresse du contrat et le nœud RPC pour activer les prix en direct.',
       },
       table: {
         headers: {
@@ -92,7 +110,13 @@ const resources = {
         listed: '{{count}} टोकन सूचीबद्ध',
         updated: 'डेटा {{time}} अद्यतन',
         lastUpdated: 'अंतिम अद्यतन',
+        notAvailable: 'उपलब्ध नहीं',
         disclaimer: 'सभी आँकड़े उदाहरणार्थ हैं और पर्यावरण विन्यास से प्राप्त होते हैं।',
+      },
+      status: {
+        loading: 'ऑन-चेन मूल्य लोड हो रहे हैं…',
+        error: 'ब्लॉकचेन से मूल्य अपडेट नहीं हो सके। कॉन्फ़िगर किए गए मान दिखाए जा रहे हैं।',
+        missingConfig: 'लाइव मूल्यों के लिए अनुबंध पता और RPC नोड कॉन्फ़िगर करें।',
       },
       table: {
         headers: {
@@ -119,7 +143,13 @@ const resources = {
         listed: '已收录 {{count}} 枚代币',
         updated: '数据已于 {{time}} 更新',
         lastUpdated: '最近更新时间',
+        notAvailable: '暂无数据',
         disclaimer: '所有指标仅供参考，来源于环境配置的数据。',
+      },
+      status: {
+        loading: '正在加载链上价格…',
+        error: '无法从区块链更新价格，显示配置中的数值。',
+        missingConfig: '请配置价格合约地址和 RPC 节点以启用实时价格。',
       },
       table: {
         headers: {
@@ -146,7 +176,13 @@ const resources = {
         listed: 'В списке {{count}} токенов',
         updated: 'Данные обновлены {{time}}',
         lastUpdated: 'Время последнего обновления',
+        notAvailable: 'Недоступно',
         disclaimer: 'Все показатели являются демонстрационными и поступают из настроек окружения.',
+      },
+      status: {
+        loading: 'Загружаем цены из блокчейна…',
+        error: 'Не удалось обновить цены из блокчейна. Показаны настроенные значения.',
+        missingConfig: 'Укажите адрес контракта и RPC-узел, чтобы включить актуальные цены.',
       },
       table: {
         headers: {
@@ -173,7 +209,13 @@ const resources = {
         listed: '{{count}} من الرموز المدرجة',
         updated: 'تم تحديث البيانات {{time}}',
         lastUpdated: 'آخر تحديث',
+        notAvailable: 'غير متوفر',
         disclaimer: 'جميع المؤشرات توضيحية ويتم الحصول عليها من إعدادات بيئة العمل.',
+      },
+      status: {
+        loading: 'جاري تحميل الأسعار من السلسلة…',
+        error: 'تعذّر تحديث الأسعار من البلوكشين. يتم عرض القيم المكوّنة.',
+        missingConfig: 'يرجى ضبط عنوان العقد ونقطة RPC لتفعيل الأسعار المباشرة.',
       },
       table: {
         headers: {
@@ -200,7 +242,13 @@ const resources = {
         listed: '{{count}} Token gelistet',
         updated: 'Daten aktualisiert {{time}}',
         lastUpdated: 'Letzte Aktualisierung',
+        notAvailable: 'Nicht verfügbar',
         disclaimer: 'Alle Kennzahlen dienen nur zur Veranschaulichung und stammen aus der Umgebungs-Konfiguration.',
+      },
+      status: {
+        loading: 'On-Chain-Preise werden geladen…',
+        error: 'Preise konnten nicht aus der Blockchain aktualisiert werden. Angezeigte Werte stammen aus der Konfiguration.',
+        missingConfig: 'Bitte Vertragsadresse und RPC-Endpunkt konfigurieren, um Live-Preise zu aktivieren.',
       },
       table: {
         headers: {

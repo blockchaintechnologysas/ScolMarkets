@@ -1,8 +1,8 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { networkName, platformName } from './config/environment.ts';
-import { tokens } from './config/tokens.ts';
 import TokenTable from './components/TokenTable.tsx';
+import { useTokensData } from './hooks/useTokensData.ts';
 import './App.css';
 
 const languageOptions = [
@@ -18,14 +18,18 @@ const languageOptions = [
 
 function App() {
   const { t, i18n } = useTranslation();
-  const lastUpdated = useMemo(() => new Date(), []);
+  const { tokens, isLoading, errorKey, lastUpdated } = useTokensData();
+  const tokenCount = tokens.length;
+  const fallbackUpdate = t('stats.notAvailable');
   const formattedUpdate = useMemo(
     () =>
-      new Intl.DateTimeFormat(i18n.language, {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-      }).format(lastUpdated),
-    [i18n.language, lastUpdated],
+      lastUpdated
+        ? new Intl.DateTimeFormat(i18n.language, {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+          }).format(lastUpdated)
+        : fallbackUpdate,
+    [fallbackUpdate, i18n.language, lastUpdated],
   );
 
   return (
@@ -57,8 +61,8 @@ function App() {
 
       <section className="app__stats">
         <div className="app__stat">
-          <span className="app__stat-value">{tokens.length}</span>
-          <span className="app__stat-label">{t('stats.listed', { count: tokens.length })}</span>
+          <span className="app__stat-value">{tokenCount}</span>
+          <span className="app__stat-label">{t('stats.listed', { count: tokenCount })}</span>
         </div>
         <div className="app__stat">
           <span className="app__stat-value">{formattedUpdate}</span>
@@ -70,6 +74,12 @@ function App() {
       </section>
 
       <main>
+        {isLoading ? (
+          <p className="app__status app__status--loading">{t('status.loading')}</p>
+        ) : null}
+        {errorKey ? (
+          <p className="app__status app__status--error">{t(errorKey)}</p>
+        ) : null}
         <TokenTable tokens={tokens} locale={i18n.language} />
       </main>
 

@@ -1,3 +1,5 @@
+import type { TokenPrice } from './price.ts';
+
 export interface Token {
   symbol: string;
   name: string;
@@ -10,4 +12,6 @@ export interface Token {
   volume24h: number;
   change24h: number;
   isNative?: boolean;
+  priceId?: string;
+  priceData?: TokenPrice;
 }
