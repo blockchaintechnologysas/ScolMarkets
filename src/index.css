@@ -52,6 +52,10 @@
   --badge-bg: linear-gradient(135deg, #ffe6a3, #ff8a3d);
   --badge-text: #6b3700;
 
+  --stat-icon-bg: rgba(255, 255, 255, 0.92);
+  --stat-icon-border: rgba(255, 173, 94, 0.35);
+  --stat-icon-shadow: 0 12px 32px rgba(255, 138, 61, 0.22);
+
   --positive-bg: rgba(22, 163, 74, 0.12);
   --positive-text: #166534;
   --negative-bg: rgba(220, 38, 38, 0.12);
@@ -66,6 +70,11 @@
   --empty-text: #5f6c7b;
 
   --selection-bg: rgba(255, 138, 61, 0.2);
+
+  --overlay-background: rgba(11, 17, 35, 0.45);
+  --overlay-card-bg: rgba(15, 25, 56, 0.94);
+  --overlay-card-border: rgba(91, 141, 255, 0.35);
+  --overlay-text: rgba(255, 255, 255, 0.92);
 }
 
 .theme-light {
@@ -121,6 +130,10 @@
   --badge-bg: linear-gradient(135deg, #2ce2ff, #6c52ff);
   --badge-text: #050d28;
 
+  --stat-icon-bg: rgba(12, 24, 56, 0.82);
+  --stat-icon-border: rgba(81, 132, 255, 0.3);
+  --stat-icon-shadow: 0 12px 30px rgba(5, 15, 40, 0.45);
+
   --positive-bg: rgba(0, 232, 162, 0.14);
   --positive-text: #00e8a2;
   --negative-bg: rgba(255, 94, 129, 0.14);
@@ -135,6 +148,11 @@
   --empty-text: rgba(255, 255, 255, 0.72);
 
   --selection-bg: rgba(91, 151, 255, 0.45);
+
+  --overlay-background: rgba(2, 6, 18, 0.6);
+  --overlay-card-bg: rgba(5, 12, 28, 0.9);
+  --overlay-card-border: rgba(91, 151, 255, 0.28);
+  --overlay-text: rgba(207, 223, 255, 0.95);
 }
 
 * {
