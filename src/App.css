@@ -302,11 +302,34 @@
 
 @media (max-width: 720px) {
   .app {
-    padding: 48px 20px 32px;
+    padding: 40px 20px 28px;
+    gap: 36px;
   }
 
   .app__header {
-    padding: 24px;
+    padding: 22px;
+    gap: 20px;
+  }
+
+  .app__subtitle {
+    font-size: 0.95rem;
+  }
+
+  .app__stats {
+    gap: 20px;
+  }
+
+  .app__stat {
+    padding: 20px;
+  }
+
+  .app__stat-icon {
+    width: 48px;
+    height: 48px;
+  }
+
+  .app__stat-value {
+    font-size: 1.4rem;
   }
 }
 
@@ -335,6 +358,32 @@
 }
 
 @media (max-width: 480px) {
+  .app {
+    padding: 32px 16px 24px;
+  }
+
+  .app__header {
+    padding: 20px;
+  }
+
+  .app__title {
+    font-size: clamp(1.6rem, 8vw, 2.2rem);
+  }
+
+  .app__stat {
+    padding: 18px;
+    gap: 12px;
+  }
+
+  .app__stat-icon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .app__stat-value {
+    font-size: 1.3rem;
+  }
+
   .app__language-select {
     width: 100%;
   }
