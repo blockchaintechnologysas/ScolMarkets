@@ -175,7 +175,6 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                           <span className="token-table__badge">{t('table.nativeBadge')}</span>
                         ) : null}
                       </div>
-                      <p className="token-table__description">{token.description}</p>
                     </div>
                   </div>
                 </td>
@@ -189,6 +188,8 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                     href={token.website}
                     target="_blank"
                     rel="noreferrer noopener"
+                    aria-label={t('table.visitSite')}
+                    title={t('table.visitSite')}
                   >
                     <span className="token-table__link-icon" aria-hidden="true">
                       <svg viewBox="0 0 20 20" focusable="false">
@@ -209,7 +210,6 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                         />
                       </svg>
                     </span>
-                    <span className="token-table__link-text">{t('table.visitSite')}</span>
                   </a>
                 </td>
               </tr>
