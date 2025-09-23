@@ -5,15 +5,15 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-
     host: true,
     port: 4687,
     strictPort: true,
+    allowedHosts: ["trademarkets.scolcoin.com"]
   },
   preview: {
     host: true,
     port: 4687,
     strictPort: true,
-
+    allowedHosts: ["trademarkets.scolcoin.com"]
   },
 });
