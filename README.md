@@ -102,6 +102,7 @@ WantedBy=multi-user.target
 Actualiza `WorkingDirectory`, `User`, `Group` y la ruta a `npm` según la configuración de tu servidor. Finalmente, habilita y levanta el servicio:
 
 ```bash
+sudo chown web-list:web-list /opt/scolmarkets
 sudo systemctl daemon-reload
 sudo systemctl enable --now web-list.service
 ```
