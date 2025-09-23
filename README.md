@@ -83,12 +83,12 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/ruta/a/ScolMarkets
-ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4687
+WorkingDirectory=/opt/scolmarkets
+ExecStart=/usr/bin/npm run preview --port 4687
 Restart=always
 Environment=NODE_ENV=production
-User=www-data
-Group=www-data
+User=web-list
+Group=web-list
 
 [Install]
 WantedBy=multi-user.target
