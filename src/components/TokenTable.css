@@ -242,10 +242,77 @@
   }
 }
 
-@media (max-width: 680px) {
-  .token-table__asset {
+@media (max-width: 768px) {
+  .token-table__container {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    overflow-x: visible;
+    padding: 0;
+  }
+
+  .token-table {
+    min-width: 0;
+    display: block;
+  }
+
+  .token-table thead {
+    display: none;
+  }
+
+  .token-table tbody {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    gap: 16px;
+    padding: 16px 0;
+  }
+
+  .token-table tbody tr {
+    display: grid;
+    gap: 16px;
+    border-bottom: none;
+    padding: 20px;
+    border-radius: 18px;
+    border: 1px solid var(--table-border);
+    background: var(--table-container-bg);
+    box-shadow: var(--table-shadow);
+  }
+
+  .token-table__row--interactive:focus-visible {
+    outline-offset: 0;
+  }
+
+  .token-table__cell {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .token-table__cell::before {
+    content: attr(data-label);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--table-text-secondary);
+  }
+
+  .token-table__cell--asset {
+    gap: 16px;
+  }
+
+  .token-table__cell--asset::before {
+    margin-bottom: 4px;
+  }
+
+  .token-table__asset {
+    align-items: center;
+    gap: 14px;
+  }
+
+  .token-table__asset-title {
+    gap: 8px;
   }
 
   .token-table__logo {
@@ -253,12 +320,19 @@
     height: 40px;
   }
 
-  .token-table__website-cell,
-  .token-table__website-header {
+  .token-table__numeric {
     text-align: left;
   }
 
-  .token-table__link {
+  .token-table__price {
+    align-items: flex-start;
+  }
+
+  .token-table__website-cell {
+    align-items: stretch;
+  }
+
+  .token-table__website-cell .token-table__link {
     width: 100%;
     justify-content: center;
   }

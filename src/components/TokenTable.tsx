@@ -15,6 +15,18 @@ export const TokenTable = ({ tokens, locale, onTokenSelect }: TokenTableProps) =
   const [hasAnimated, setHasAnimated] = useState(false);
   const detailsLabel = t('table.openDetails', 'View details');
 
+  const headerLabels = useMemo(
+    () => ({
+      asset: t('table.headers.asset'),
+      price: t('table.headers.price'),
+      marketCap: t('table.headers.marketCap'),
+      totalSupply: t('table.headers.totalSupply'),
+      circulatingSupply: t('table.headers.circulatingSupply'),
+      website: t('table.headers.website'),
+    }),
+    [t],
+  );
+
   const sortedTokens = useMemo(() => tokens, [tokens]);
   useEffect(() => {
     if (!sortedTokens.length) {
@@ -167,12 +179,12 @@ export const TokenTable = ({ tokens, locale, onTokenSelect }: TokenTableProps) =
       <table className={`token-table${hasAnimated ? ' token-table--animated' : ''}`}>
         <thead>
           <tr>
-            <th>{t('table.headers.asset')}</th>
-            <th className="token-table__numeric">{t('table.headers.price')}</th>
-            <th className="token-table__numeric">{t('table.headers.marketCap')}</th>
-            <th className="token-table__numeric">{t('table.headers.totalSupply')}</th>
-            <th className="token-table__numeric">{t('table.headers.circulatingSupply')}</th>
-            <th className="token-table__website-header">{t('table.headers.website')}</th>
+            <th>{headerLabels.asset}</th>
+            <th className="token-table__numeric">{headerLabels.price}</th>
+            <th className="token-table__numeric">{headerLabels.marketCap}</th>
+            <th className="token-table__numeric">{headerLabels.totalSupply}</th>
+            <th className="token-table__numeric">{headerLabels.circulatingSupply}</th>
+            <th className="token-table__website-header">{headerLabels.website}</th>
           </tr>
         </thead>
         <tbody>
@@ -191,7 +203,10 @@ export const TokenTable = ({ tokens, locale, onTokenSelect }: TokenTableProps) =
                 aria-label={interactive ? `${detailsLabel}: ${token.name}` : undefined}
                 title={interactive ? detailsLabel : undefined}
               >
-                <td>
+                <td
+                  className="token-table__cell token-table__cell--asset"
+                  data-label={headerLabels.asset}
+                >
                   <div className="token-table__asset">
                     <img
                       src={token.logo}
@@ -210,11 +225,34 @@ export const TokenTable = ({ tokens, locale, onTokenSelect }: TokenTableProps) =
                     </div>
                   </div>
                 </td>
-                <td className="token-table__numeric token-table__price-cell">{renderPrice(token)}</td>
-                <td className="token-table__numeric">{formatCompactNumber(token.marketCap, locale)}</td>
-                <td className="token-table__numeric">{formatSupply(token.totalSupply)}</td>
-                <td className="token-table__numeric">{formatSupply(token.circulatingSupply)}</td>
-                <td className="token-table__website-cell">
+                <td
+                  className="token-table__cell token-table__numeric token-table__price-cell"
+                  data-label={headerLabels.price}
+                >
+                  {renderPrice(token)}
+                </td>
+                <td
+                  className="token-table__cell token-table__numeric"
+                  data-label={headerLabels.marketCap}
+                >
+                  {formatCompactNumber(token.marketCap, locale)}
+                </td>
+                <td
+                  className="token-table__cell token-table__numeric"
+                  data-label={headerLabels.totalSupply}
+                >
+                  {formatSupply(token.totalSupply)}
+                </td>
+                <td
+                  className="token-table__cell token-table__numeric"
+                  data-label={headerLabels.circulatingSupply}
+                >
+                  {formatSupply(token.circulatingSupply)}
+                </td>
+                <td
+                  className="token-table__cell token-table__website-cell"
+                  data-label={headerLabels.website}
+                >
                   <a
                     className="token-table__link"
                     href={token.website}
