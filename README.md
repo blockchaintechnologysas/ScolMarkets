@@ -44,6 +44,55 @@ Variables disponibles:
 - `npm run build`: genera la versión optimizada para producción.
 - `npm run preview`: sirve la build generada localmente.
 
+## Despliegue como servicio systemd en Linux
+
+Para ejecutar la aplicación como un servicio administrado por `systemd`, primero genera la build de producción y verifica que el comando de previsualización funcione correctamente:
+
+```bash
+npm run build
+npm run preview -- --host 0.0.0.0 --port 4173
+```
+
+Una vez que confirmes que todo funciona, crea el archivo de servicio. Por ejemplo:
+
+```bash
+sudo nano /etc/systemd/system/web-list.service
+```
+
+Contenido sugerido del archivo:
+
+```ini
+[Unit]
+Description=Panel ScolMarkets
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/ruta/a/ScolMarkets
+ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4173
+Restart=always
+Environment=NODE_ENV=production
+User=www-data
+Group=www-data
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Actualiza `WorkingDirectory`, `User`, `Group` y la ruta a `npm` según la configuración de tu servidor. Finalmente, habilita y levanta el servicio:
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable --now web-list.service
+```
+
+Puedes revisar el estado y los registros con:
+
+```bash
+systemctl status web-list.service
+journalctl -u web-list.service -f
+```
+
 ## Personalización
 
 1. Actualiza `.env` con los tokens de tu red. La moneda Scolcoin aparece automáticamente como activa nativa si su símbolo es `SCOL`.
