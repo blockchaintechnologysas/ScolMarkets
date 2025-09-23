@@ -2,7 +2,7 @@ import { priceContractAddress, rpcUrl } from '../config/environment.ts';
 import type { TokenPrice } from '../types/price.ts';
 
 const PRECIOS_SELECTOR = '0x1002aa9d';
-const DECIMALS = 2n;
+const DECIMALS = 10n;
 const WORD_SIZE = 64;
 const ADDRESS_LENGTH = 40;
 
@@ -23,9 +23,17 @@ const encodeStringArgument = (value: string) => {
 
 const formatWithDecimals = (value: bigint): number => {
   const divisor = 10n ** DECIMALS;
-  const whole = value / divisor;
-  const fraction = value % divisor;
-  return Number(whole) + Number(fraction) / Number(divisor);
+  if (divisor === 0n) {
+    return 0;
+  }
+
+  const isNegative = value < 0n;
+  const absoluteValue = isNegative ? -value : value;
+  const whole = absoluteValue / divisor;
+  const fraction = absoluteValue % divisor;
+  const decimal = Number(whole) + Number(fraction) / Number(divisor);
+
+  return isNegative ? -decimal : decimal;
 };
 
 const hexToBigInt = (hex: string): bigint => {

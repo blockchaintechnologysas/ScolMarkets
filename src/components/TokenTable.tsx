@@ -1,7 +1,7 @@
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Token } from '../types/token.ts';
-import { formatCompactNumber, formatCurrency, formatPercentage } from '../utils/format.ts';
+import { formatCompactNumber, formatCrypto, formatCurrency, formatPercentage } from '../utils/format.ts';
 import './TokenTable.css';
 
 type TokenTableProps = {
@@ -19,6 +19,76 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
   if (!sortedTokens.length) {
     return <p className="token-table__empty">{t('table.empty')}</p>;
   }
+
+  const renderPrice = (token: Token) => {
+    const priceEntries = token.priceData
+      ? [
+          {
+            key: 'usd',
+            value: token.priceData.usd,
+            formatter: (amount: number) =>
+              formatCurrency(amount, locale, {
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 4,
+              }),
+            className: 'token-table__price-item--primary',
+          },
+          {
+            key: 'cop',
+            value: token.priceData.cop,
+            formatter: (amount: number) =>
+              formatCurrency(amount, locale, {
+                currency: 'COP',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 2,
+              }),
+            className: 'token-table__price-item--secondary',
+          },
+          {
+            key: 'btc',
+            value: token.priceData.btc,
+            formatter: (amount: number) =>
+              formatCrypto(amount, locale, {
+                symbol: 'BTC',
+                minimumFractionDigits: 0,
+                maximumFractionDigits: 8,
+              }),
+            className: 'token-table__price-item--secondary token-table__price-item--btc',
+          },
+        ]
+      : [
+          {
+            key: 'usd-fallback',
+            value: token.price,
+            formatter: (amount: number) =>
+              formatCurrency(amount, locale, {
+                currency: 'USD',
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 4,
+              }),
+            className: 'token-table__price-item--primary',
+          },
+        ];
+
+    const items = priceEntries
+      .filter(({ value }) => Number.isFinite(value))
+      .map((entry) => (
+        <span key={entry.key} className={`token-table__price-item ${entry.className}`}>
+          {entry.formatter(entry.value)}
+        </span>
+      ));
+
+    if (!items.length) {
+      return (
+        <div className="token-table__price">
+          <span className="token-table__price-item token-table__price-item--primary">—</span>
+        </div>
+      );
+    }
+
+    return <div className="token-table__price">{items}</div>;
+  };
 
   return (
     <div className="token-table__container">
@@ -61,7 +131,7 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                     </div>
                   </div>
                 </td>
-                <td>{formatCurrency(token.price, locale)}</td>
+                <td className="token-table__numeric token-table__price-cell">{renderPrice(token)}</td>
                 <td className="token-table__numeric">{formatCompactNumber(token.marketCap, locale)}</td>
                 <td className="token-table__numeric">{formatCompactNumber(token.volume24h, locale)}</td>
                 <td className="token-table__numeric">
