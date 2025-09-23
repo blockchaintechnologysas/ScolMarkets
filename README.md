@@ -40,7 +40,7 @@ Variables disponibles:
 
 - `VITE_PLATFORM_NAME`: nombre comercial que se muestra en la cabecera de la aplicación.
 - `VITE_NETWORK_NAME`: nombre de la red donde viven los tokens.
-- `VITE_TOKENS_DATA`: arreglo serializado en formato JSON con los datos de cada token (símbolo, nombre, dirección, logo, sitio web, descripción y métricas numéricas).
+- `VITE_TOKENS_DATA`: arreglo serializado en formato JSON con los datos de cada token (símbolo, nombre, dirección, logo, sitio web, descripción y métricas numéricas como precio, capitalización, volumen, variación diaria y suministros).
 
 > **Nota:** La aplicación solo consume la información que expones en `VITE_TOKENS_DATA`, por lo que no se muestran direcciones de contrato ni otros datos sensibles en la interfaz si decides omitirlos al renderizar.
 

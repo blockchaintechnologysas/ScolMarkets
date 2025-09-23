@@ -11,6 +11,9 @@ const safeParseTokens = (): Token[] => {
     const parsed = JSON.parse(rawTokens) as Token[];
     return parsed.map((token) => ({
       ...token,
+      totalSupply: token.totalSupply ?? null,
+      maxSupply: token.maxSupply ?? null,
+      circulatingSupply: token.circulatingSupply ?? null,
       isNative: token.symbol.toUpperCase() === 'SCOL',
     }));
   } catch (error) {
