@@ -1,4 +1,4 @@
-import { type CSSProperties, useEffect, useMemo, useState } from 'react';
+import { type CSSProperties, type KeyboardEvent, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Token } from '../types/token.ts';
 import { formatCompactNumber, formatCrypto, formatCurrency } from '../utils/format.ts';
@@ -7,11 +7,13 @@ import './TokenTable.css';
 type TokenTableProps = {
   tokens: Token[];
   locale: string;
+  onTokenSelect?: (token: Token) => void;
 };
 
-export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
+export const TokenTable = ({ tokens, locale, onTokenSelect }: TokenTableProps) => {
   const { t } = useTranslation();
   const [hasAnimated, setHasAnimated] = useState(false);
+  const detailsLabel = t('table.openDetails', 'View details');
 
   const sortedTokens = useMemo(() => tokens, [tokens]);
   useEffect(() => {
@@ -141,6 +143,25 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
     return <div className="token-table__price">{items}</div>;
   };
 
+  const handleRowClick = (token: Token) => {
+    if (!onTokenSelect) {
+      return;
+    }
+
+    onTokenSelect(token);
+  };
+
+  const handleRowKeyDown = (event: KeyboardEvent<HTMLTableRowElement>, token: Token) => {
+    if (!onTokenSelect) {
+      return;
+    }
+
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onTokenSelect(token);
+    }
+  };
+
   return (
     <div className="token-table__container">
       <table className={`token-table${hasAnimated ? ' token-table--animated' : ''}`}>
@@ -157,8 +178,19 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
         <tbody>
           {sortedTokens.map((token, index) => {
             const rowStyle = { '--row-index': index } as CSSProperties;
+            const interactive = Boolean(onTokenSelect);
             return (
-              <tr key={token.symbol} className="token-table__row" style={rowStyle}>
+              <tr
+                key={token.symbol}
+                className={`token-table__row${interactive ? ' token-table__row--interactive' : ''}`}
+                style={rowStyle}
+                onClick={interactive ? () => handleRowClick(token) : undefined}
+                onKeyDown={interactive ? (event) => handleRowKeyDown(event, token) : undefined}
+                role={interactive ? 'button' : undefined}
+                tabIndex={interactive ? 0 : undefined}
+                aria-label={interactive ? `${detailsLabel}: ${token.name}` : undefined}
+                title={interactive ? detailsLabel : undefined}
+              >
                 <td>
                   <div className="token-table__asset">
                     <img
