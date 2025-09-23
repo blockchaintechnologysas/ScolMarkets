@@ -1,3 +1,4 @@
+
 import { useEffect, useMemo, useState } from 'react';
 import { priceContractAddress, rpcUrl } from '../config/environment.ts';
 import { getConfiguredTokens } from '../config/tokens.ts';
@@ -113,5 +114,6 @@ export const useTokenDetails = (symbol?: string): UseTokenDetailsResult => {
     isLoading,
     errorKey,
     lastUpdated,
+
   };
 };
