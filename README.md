@@ -27,7 +27,7 @@ Si prefieres seguir los pasos desde el **Símbolo del sistema de Windows**, cons
 ```
 mkdir -p /opt/cex-p2p
 cd /opt/cex-p2p
-git clone 
+git clone https://github.com/blockchaintechnologysas/ScolMarkets.git /opt/cex-p2p
 ```
 
 La configuración vive en el archivo `.env`. Se incluye un archivo `.env.example` como referencia. Copia el archivo y ajusta los valores a los de tu proyecto:
