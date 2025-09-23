@@ -56,7 +56,7 @@ Asumiendo que el código se encuentra en /opt/cex-p2p, para ejecutar la aplicaci
 
 ```bash
 npm run build
-npm run preview -- --host 0.0.0.0 --port 4173
+npm run preview -- --host 0.0.0.0 --port 4687
 ```
 
 Una vez que confirmes que todo funciona, crea el archivo de servicio. Por ejemplo:
@@ -75,7 +75,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/ruta/a/ScolMarkets
-ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4173
+ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4687
 Restart=always
 Environment=NODE_ENV=production
 User=www-data
