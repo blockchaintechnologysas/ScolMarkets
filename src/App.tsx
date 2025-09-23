@@ -36,6 +36,7 @@ function App() {
   const { tokens, isLoading, errorKey, lastUpdated } = useTokensData();
   const tokenCount = tokens.length;
   const fallbackUpdate = t('stats.notAvailable');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => getPreferredTheme());
 
   const formattedUpdate = useMemo(
     () =>
