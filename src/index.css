@@ -51,6 +51,7 @@
   --stat-icon-bg: rgba(255, 255, 255, 0.92);
   --stat-icon-border: rgba(255, 173, 94, 0.35);
   --stat-icon-shadow: 0 12px 32px rgba(255, 138, 61, 0.22);
+  --stat-icon-color: #3d1600;
 
   --positive-bg: rgba(22, 163, 74, 0.12);
   --positive-text: #166534;
@@ -129,6 +130,7 @@
   --stat-icon-bg: rgba(12, 24, 56, 0.82);
   --stat-icon-border: rgba(81, 132, 255, 0.3);
   --stat-icon-shadow: 0 12px 30px rgba(5, 15, 40, 0.45);
+  --stat-icon-color: rgba(207, 223, 255, 0.92);
 
   --positive-bg: rgba(0, 232, 162, 0.14);
   --positive-text: #00e8a2;

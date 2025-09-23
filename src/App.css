@@ -204,7 +204,7 @@
   background: var(--stat-icon-bg);
   border: 1px solid var(--stat-icon-border);
   box-shadow: var(--stat-icon-shadow);
-  color: var(--accent-contrast);
+  color: var(--stat-icon-color);
   flex-shrink: 0;
 }
 
