@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { type CSSProperties, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Token } from '../types/token.ts';
 import { formatCompactNumber, formatCrypto, formatCurrency, formatPercentage } from '../utils/format.ts';
@@ -11,8 +11,30 @@ type TokenTableProps = {
 
 export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
   const { t } = useTranslation();
+  const [hasAnimated, setHasAnimated] = useState(false);
 
   const sortedTokens = useMemo(() => tokens, [tokens]);
+  useEffect(() => {
+    if (!sortedTokens.length) {
+      if (hasAnimated) {
+        setHasAnimated(false);
+      }
+      return;
+    }
+
+    if (hasAnimated) {
+      return;
+    }
+
+    const animationFrame = requestAnimationFrame(() => {
+      setHasAnimated(true);
+    });
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+    };
+  }, [hasAnimated, sortedTokens.length]);
+
   const formatSupply = (value: Token['totalSupply']) =>
     value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
 
@@ -121,7 +143,7 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
 
   return (
     <div className="token-table__container">
-      <table className="token-table">
+      <table className={`token-table${hasAnimated ? ' token-table--animated' : ''}`}>
         <thead>
           <tr>
             <th>{t('table.headers.asset')}</th>
@@ -136,10 +158,11 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
           </tr>
         </thead>
         <tbody>
-          {sortedTokens.map((token) => {
+          {sortedTokens.map((token, index) => {
             const changeClass = token.change24h >= 0 ? 'positive' : 'negative';
+            const rowStyle = { '--row-index': index } as CSSProperties;
             return (
-              <tr key={token.symbol}>
+              <tr key={token.symbol} className="token-table__row" style={rowStyle}>
                 <td>
                   <div className="token-table__asset">
                     <img
