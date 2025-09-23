@@ -1,10 +1,140 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap');
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   font-family: 'Outfit', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(180deg, #fff8f0 0%, #ffffff 55%, #f5f5f7 100%);
+  color: #1f2933;
+
+  --text-primary: #1f2933;
+  --text-muted: #6b7280;
+  --text-soft: #7b8794;
+
+  --accent-gradient: linear-gradient(135deg, #ff8a3d, #ff5f17);
+  --accent-contrast: #3d1600;
+  --accent-shadow: 0 12px 28px rgba(255, 138, 61, 0.25);
+
+  --header-background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.96) 0%,
+    rgba(255, 232, 207, 0.92) 100%
+  );
+  --header-border: rgba(255, 173, 94, 0.35);
+  --header-shadow: 0 24px 48px rgba(255, 138, 61, 0.18);
+  --header-highlight: radial-gradient(circle at top right, rgba(255, 163, 102, 0.28), transparent 55%);
+
+  --control-bg: rgba(255, 255, 255, 0.9);
+  --control-border: rgba(255, 173, 94, 0.28);
+  --control-shadow: 0 12px 30px rgba(255, 138, 61, 0.16);
+  --control-hover: rgba(255, 138, 61, 0.12);
+  --control-focus: rgba(255, 138, 61, 0.45);
+  --focus-ring: rgba(255, 138, 61, 0.18);
+
+  --stat-background: linear-gradient(140deg, rgba(255, 255, 255, 0.96), rgba(255, 239, 224, 0.9));
+  --stat-border: rgba(255, 173, 94, 0.24);
+  --stat-shadow: 0 20px 45px rgba(255, 138, 61, 0.15);
+
+  --disclaimer-background: rgba(255, 173, 94, 0.12);
+  --disclaimer-text: #8a4212;
+
+  --table-container-bg: rgba(255, 255, 255, 0.95);
+  --table-border: rgba(255, 173, 94, 0.24);
+  --table-shadow: 0 20px 50px rgba(209, 118, 40, 0.18);
+  --table-header-bg: linear-gradient(135deg, rgba(255, 243, 231, 0.95), rgba(255, 224, 196, 0.9));
+  --table-header-text: #a24b12;
+  --table-row-border: rgba(255, 173, 94, 0.18);
+  --table-row-hover: rgba(255, 163, 102, 0.12);
+  --table-text-secondary: #94603a;
+  --logo-background: rgba(255, 232, 207, 0.7);
+  --logo-border: rgba(255, 182, 115, 0.6);
+  --description-color: #6b7280;
+
+  --badge-bg: linear-gradient(135deg, #ffe6a3, #ff8a3d);
+  --badge-text: #6b3700;
+
+  --positive-bg: rgba(22, 163, 74, 0.12);
+  --positive-text: #166534;
+  --negative-bg: rgba(220, 38, 38, 0.12);
+  --negative-text: #b91c1c;
+
+  --link-bg: linear-gradient(135deg, #ff8a3d, #ffb347);
+  --link-text: #5d2a00;
+  --link-shadow: 0 10px 25px rgba(255, 138, 61, 0.22);
+  --link-shadow-hover: 0 16px 36px rgba(255, 138, 61, 0.28);
+
+  --empty-bg: rgba(255, 255, 255, 0.95);
+  --empty-text: #5f6c7b;
+
+  --selection-bg: rgba(255, 138, 61, 0.2);
+}
+
+.theme-light {
+  color-scheme: light;
+  background: linear-gradient(180deg, #fff8f0 0%, #ffffff 55%, #f5f5f7 100%);
+  color: #1f2933;
+}
+
+.theme-dark {
+  color-scheme: dark;
   background: radial-gradient(circle at top left, #223b82 0%, #060b1b 55%, #030511 100%);
   color: #f5f7ff;
+
+  --text-primary: #ffffff;
+  --text-muted: rgba(161, 196, 255, 0.7);
+  --text-soft: rgba(207, 223, 255, 0.75);
+
+  --accent-gradient: linear-gradient(135deg, #5c7cff, #8bb4ff);
+  --accent-contrast: #050d28;
+  --accent-shadow: 0 12px 28px rgba(67, 132, 255, 0.32);
+
+  --header-background: linear-gradient(140deg, rgba(15, 26, 56, 0.9), rgba(22, 38, 82, 0.78));
+  --header-border: rgba(81, 132, 255, 0.25);
+  --header-shadow: 0 24px 60px rgba(5, 14, 42, 0.45);
+  --header-highlight: radial-gradient(circle at top right, rgba(67, 132, 255, 0.25), transparent 55%);
+
+  --control-bg: rgba(14, 24, 56, 0.85);
+  --control-border: rgba(81, 132, 255, 0.3);
+  --control-shadow: 0 12px 30px rgba(28, 66, 135, 0.35);
+  --control-hover: rgba(81, 132, 255, 0.18);
+  --control-focus: rgba(137, 196, 255, 0.75);
+  --focus-ring: rgba(81, 132, 255, 0.18);
+
+  --stat-background: linear-gradient(150deg, rgba(13, 22, 48, 0.85), rgba(17, 35, 74, 0.7));
+  --stat-border: rgba(81, 132, 255, 0.18);
+  --stat-shadow: 0 18px 40px rgba(5, 15, 40, 0.45);
+
+  --disclaimer-background: rgba(255, 255, 255, 0.04);
+  --disclaimer-text: rgba(207, 223, 255, 0.75);
+
+  --table-container-bg: rgba(9, 16, 34, 0.45);
+  --table-border: rgba(81, 132, 255, 0.2);
+  --table-shadow: 0 20px 45px rgba(5, 15, 40, 0.35);
+  --table-header-bg: rgba(16, 27, 58, 0.9);
+  --table-header-text: rgba(255, 255, 255, 0.7);
+  --table-row-border: rgba(81, 132, 255, 0.12);
+  --table-row-hover: rgba(43, 70, 126, 0.24);
+  --table-text-secondary: rgba(255, 255, 255, 0.58);
+  --logo-background: rgba(255, 255, 255, 0.08);
+  --logo-border: rgba(255, 255, 255, 0.08);
+  --description-color: rgba(255, 255, 255, 0.64);
+
+  --badge-bg: linear-gradient(135deg, #2ce2ff, #6c52ff);
+  --badge-text: #050d28;
+
+  --positive-bg: rgba(0, 232, 162, 0.14);
+  --positive-text: #00e8a2;
+  --negative-bg: rgba(255, 94, 129, 0.14);
+  --negative-text: #ff5e81;
+
+  --link-bg: linear-gradient(135deg, rgba(70, 92, 255, 0.85), rgba(105, 213, 255, 0.85));
+  --link-text: #050d28;
+  --link-shadow: 0 10px 25px rgba(54, 125, 255, 0.35);
+  --link-shadow-hover: 0 16px 36px rgba(54, 125, 255, 0.45);
+
+  --empty-bg: rgba(9, 16, 34, 0.65);
+  --empty-text: rgba(255, 255, 255, 0.72);
+
+  --selection-bg: rgba(91, 151, 255, 0.45);
 }
 
 * {
@@ -15,6 +145,7 @@ body {
   margin: 0;
   min-height: 100vh;
   background: transparent;
+  color: inherit;
 }
 
 #root {
@@ -22,5 +153,5 @@ body {
 }
 
 ::selection {
-  background: rgba(91, 151, 255, 0.45);
+  background: var(--selection-bg);
 }
