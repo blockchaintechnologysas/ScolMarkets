@@ -38,6 +38,7 @@ const safeParseTokens = (): Token[] => {
         isNative: symbol.toUpperCase() === 'SCOL',
       } as Token;
     });
+
   } catch (error) {
     console.warn('Unable to parse token configuration from environment', error);
     return [];

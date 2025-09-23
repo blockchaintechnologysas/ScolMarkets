@@ -13,6 +13,8 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
   const { t } = useTranslation();
 
   const sortedTokens = useMemo(() => tokens, [tokens]);
+  const formatSupply = (value: Token['totalSupply']) =>
+    value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
 
   if (!sortedTokens.length) {
     return <p className="token-table__empty">{t('table.empty')}</p>;
@@ -24,10 +26,13 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
         <thead>
           <tr>
             <th>{t('table.headers.asset')}</th>
-            <th>{t('table.headers.price')}</th>
-            <th>{t('table.headers.marketCap')}</th>
-            <th>{t('table.headers.volume24h')}</th>
-            <th>{t('table.headers.change24h')}</th>
+            <th className="token-table__numeric">{t('table.headers.price')}</th>
+            <th className="token-table__numeric">{t('table.headers.marketCap')}</th>
+            <th className="token-table__numeric">{t('table.headers.volume24h')}</th>
+            <th className="token-table__numeric">{t('table.headers.change24h')}</th>
+            <th className="token-table__numeric">{t('table.headers.totalSupply')}</th>
+            <th className="token-table__numeric">{t('table.headers.maxSupply')}</th>
+            <th className="token-table__numeric">{t('table.headers.circulatingSupply')}</th>
             <th className="token-table__website-header">{t('table.headers.website')}</th>
           </tr>
         </thead>
@@ -57,13 +62,16 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                   </div>
                 </td>
                 <td>{formatCurrency(token.price, locale)}</td>
-                <td>{formatCompactNumber(token.marketCap, locale)}</td>
-                <td>{formatCompactNumber(token.volume24h, locale)}</td>
-                <td>
+                <td className="token-table__numeric">{formatCompactNumber(token.marketCap, locale)}</td>
+                <td className="token-table__numeric">{formatCompactNumber(token.volume24h, locale)}</td>
+                <td className="token-table__numeric">
                   <span className={`token-table__change ${changeClass}`}>
                     {formatPercentage(token.change24h, locale)}
                   </span>
                 </td>
+                <td className="token-table__numeric">{formatSupply(token.totalSupply)}</td>
+                <td className="token-table__numeric">{formatSupply(token.maxSupply)}</td>
+                <td className="token-table__numeric">{formatSupply(token.circulatingSupply)}</td>
                 <td className="token-table__website-cell">
                   <a
                     className="token-table__link"

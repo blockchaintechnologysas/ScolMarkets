@@ -45,6 +45,7 @@ Variables disponibles:
 - `VITE_RPC_URL`: endpoint HTTP del nodo al que se le realizarán las llamadas `eth_call`.
 - `VITE_TOKENS_DATA`: arreglo serializado en formato JSON con los datos de cada token (símbolo, nombre, dirección, logo, sitio web, descripción y métricas numéricas). Puedes incluir opcionalmente `priceId` para indicar el identificador exacto usado en el contrato.
 
+
 > **Nota:** La aplicación solo consume la información que expones en `VITE_TOKENS_DATA`, por lo que no se muestran direcciones de contrato ni otros datos sensibles en la interfaz si decides omitirlos al renderizar.
 
 ## Scripts disponibles

@@ -10,14 +10,18 @@
 .token-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 720px;
-  color: var(--text-primary);
+  min-width: 960px;
+
 }
 
 .token-table th,
 .token-table td {
   padding: 20px 24px;
   text-align: left;
+}
+
+.token-table__numeric {
+  text-align: right;
 }
 
 .token-table thead th {

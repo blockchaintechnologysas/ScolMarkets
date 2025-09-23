@@ -37,7 +37,7 @@ Dentro del archivo `.env`, personaliza la variable `VITE_TOKENS_DATA` siguiendo 
 - `logo`: URL del logo.
 - `website`: sitio web oficial.
 - `description`: resumen del proyecto.
-- `price`, `marketCap`, `volume24h`, `change24h`: métricas numéricas que se renderizan en la tabla.
+- `price`, `marketCap`, `volume24h`, `change24h`, `totalSupply`, `maxSupply`, `circulatingSupply`: métricas numéricas que se renderizan en la tabla.
 
 > Consejo: si vienes del flujo documentado en `blockchaintechnologysas/p2p`, puedes reutilizar la estructura de datos que expone ese panel y pegarla en `VITE_TOKENS_DATA`, ajustando nombres o campos adicionales según sea necesario.
 
