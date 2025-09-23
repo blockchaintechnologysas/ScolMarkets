@@ -46,7 +46,7 @@ Variables disponibles:
 
 ## Despliegue como servicio systemd en Linux
 
-Para ejecutar la aplicación como un servicio administrado por `systemd`, primero genera la build de producción y verifica que el comando de previsualización funcione correctamente:
+Asumiendo que el código se encuentra en /opt/cex-p2p, para ejecutar la aplicación como un servicio administrado por `systemd`, primero genera la build de producción y verifica que el comando de previsualización funcione correctamente:
 
 ```bash
 npm run build
