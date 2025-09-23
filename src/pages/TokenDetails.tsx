@@ -1,0 +1,432 @@
+import { useEffect, useMemo } from 'react';
+import { useTranslation } from 'react-i18next';
+import { platformName } from '../config/environment.ts';
+import { useTokenDetails } from '../hooks/useTokensData.ts';
+import type { Token } from '../types/token.ts';
+import type { TokenPrice } from '../types/price.ts';
+import { formatCompactNumber, formatCrypto, formatCurrency, formatPercentage } from '../utils/format.ts';
+import './TokenDetails.css';
+
+type TokenDetailsProps = {
+  symbol: string;
+  onBack: () => void;
+};
+
+type Metric = {
+  key: string;
+  value: string;
+};
+
+const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
+  value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
+
+const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
+  const sources = [priceData, token.priceData ?? null];
+
+  const getValue = (extract: (data: TokenPrice) => number | undefined): number | undefined => {
+    for (const source of sources) {
+      if (!source) {
+        continue;
+      }
+
+      const candidate = extract(source);
+      if (typeof candidate === 'number' && Number.isFinite(candidate)) {
+        return candidate;
+      }
+    }
+
+    return undefined;
+  };
+
+  const entries = [
+    {
+      key: 'usd',
+      label: 'USD',
+      value: () => getValue((data) => data.usd) ?? token.price,
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'USD',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4,
+        }),
+    },
+    {
+      key: 'cop',
+      label: 'COP',
+      value: () => getValue((data) => data.cop),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'COP',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 2,
+        }),
+    },
+    {
+      key: 'eur',
+      label: 'EUR',
+      value: () => getValue((data) => data.eur),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'EUR',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4,
+        }),
+    },
+    {
+      key: 'gbp',
+      label: 'GBP',
+      value: () => getValue((data) => data.gbp),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'GBP',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4,
+        }),
+    },
+    {
+      key: 'brl',
+      label: 'BRL',
+      value: () => getValue((data) => data.brl),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'BRL',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4,
+        }),
+    },
+    {
+      key: 'jpy',
+      label: 'JPY',
+      value: () => getValue((data) => data.jpy),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'JPY',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 0,
+        }),
+    },
+    {
+      key: 'cny',
+      label: 'CNY',
+      value: () => getValue((data) => data.cny),
+      formatter: (amount: number) =>
+        formatCurrency(amount, locale, {
+          currency: 'CNY',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 4,
+        }),
+    },
+    {
+      key: 'btc',
+      label: 'BTC',
+      value: () => getValue((data) => data.btc),
+      formatter: (amount: number) =>
+        formatCrypto(amount, locale, {
+          symbol: 'BTC',
+          minimumFractionDigits: 0,
+          maximumFractionDigits: 8,
+        }),
+    },
+  ] as const;
+
+  return entries.flatMap((entry) => {
+    const amount = entry.value();
+    if (typeof amount !== 'number' || !Number.isFinite(amount)) {
+      return [];
+    }
+
+    return [
+      {
+        key: entry.key,
+        label: entry.label,
+        value: entry.formatter(amount),
+      },
+    ];
+  });
+};
+
+const buildMarketMetrics = (token: Token, locale: string, lastUpdatedLabel: string): Metric[] => {
+  const volumeValue = Number.isFinite(token.volume24h)
+    ? formatCurrency(token.volume24h, locale, {
+        currency: 'USD',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2,
+      })
+    : '—';
+
+  const marketCapValue = Number.isFinite(token.marketCap)
+    ? formatCurrency(token.marketCap, locale, {
+        currency: 'USD',
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0,
+      })
+    : '—';
+
+  const changeValue = Number.isFinite(token.change24h)
+    ? (() => {
+        const formatted = formatPercentage(Math.abs(token.change24h), locale);
+        return token.change24h >= 0 ? `+${formatted}` : `-${formatted}`;
+      })()
+    : '—';
+
+  return [
+    { key: 'marketCap', value: marketCapValue },
+    { key: 'volume24h', value: volumeValue },
+    { key: 'change24h', value: changeValue },
+    { key: 'lastUpdated', value: lastUpdatedLabel },
+  ];
+};
+
+export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
+  const { t, i18n } = useTranslation();
+  const normalizedSymbol = symbol.toLowerCase();
+  const { token, priceData, isLoading, errorKey, lastUpdated } = useTokenDetails(normalizedSymbol);
+  const locale = i18n.language;
+  const overviewTitle = t('title', { platform: platformName });
+
+  useEffect(() => {
+    if (typeof document === 'undefined') {
+      return;
+    }
+
+    if (token) {
+      document.title = `${token.name} (${token.symbol}) | ${platformName}`;
+      return () => {
+        document.title = overviewTitle;
+      };
+    }
+
+    document.title = overviewTitle;
+
+    return undefined;
+  }, [overviewTitle, token]);
+
+  const lastUpdatedLabel = useMemo(
+    () =>
+      lastUpdated
+        ? new Intl.DateTimeFormat(locale, {
+            dateStyle: 'medium',
+            timeStyle: 'short',
+          }).format(lastUpdated)
+        : t('stats.notAvailable'),
+    [lastUpdated, locale, t],
+  );
+
+  const priceRows = useMemo(
+    () => (token ? buildPriceRows(priceData, token, locale) : []),
+    [locale, priceData, token],
+  );
+
+  const marketMetrics = useMemo(
+    () => (token ? buildMarketMetrics(token, locale, lastUpdatedLabel) : []),
+    [lastUpdatedLabel, locale, token],
+  );
+
+  const supplyMetrics = useMemo(() => {
+    if (!token) {
+      return [];
+    }
+
+    return [
+      {
+        key: 'totalSupply',
+        label: t('table.headers.totalSupply'),
+        value: formatSupplyValue(token.totalSupply, locale),
+      },
+      {
+        key: 'circulatingSupply',
+        label: t('table.headers.circulatingSupply'),
+        value: formatSupplyValue(token.circulatingSupply, locale),
+      },
+      {
+        key: 'maxSupply',
+        label: t('table.headers.maxSupply'),
+        value: formatSupplyValue(token.maxSupply, locale),
+      },
+    ];
+  }, [locale, t, token]);
+
+  const handleBackClick = () => {
+    onBack();
+  };
+
+  if (!token) {
+    return (
+      <main className="token-details" aria-live="polite">
+        <button type="button" className="token-details__back" onClick={handleBackClick}>
+          <span aria-hidden="true" className="token-details__back-icon">
+            <svg viewBox="0 0 20 20" focusable="false">
+              <path
+                d="M12.5 5.5 7.5 10l5 4.5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </span>
+          {t('details.back')}
+        </button>
+
+        <div className="token-details__empty">
+          <h2>{t('details.notFoundTitle')}</h2>
+          <p>{t('details.notFoundDescription')}</p>
+        </div>
+      </main>
+    );
+  }
+
+  const hasOracleData = Boolean(priceData?.status);
+  const derivedPriceData = priceData ?? token.priceData ?? null;
+  const changeClass = token.change24h >= 0 ? 'token-details__change--positive' : 'token-details__change--negative';
+  const changeDisplay = Number.isFinite(token.change24h)
+    ? (() => {
+        const formatted = formatPercentage(Math.abs(token.change24h), locale);
+        return `${token.change24h >= 0 ? '+' : '-'}${formatted}`;
+      })()
+    : null;
+
+  return (
+    <main className="token-details" aria-live="polite">
+      <button type="button" className="token-details__back" onClick={handleBackClick}>
+        <span aria-hidden="true" className="token-details__back-icon">
+          <svg viewBox="0 0 20 20" focusable="false">
+            <path
+              d="M12.5 5.5 7.5 10l5 4.5"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </span>
+        {t('details.back')}
+      </button>
+
+      <section className="token-details__header">
+        <div className="token-details__identity">
+          <img src={token.logo} alt={`${token.name} logo`} className="token-details__logo" loading="lazy" />
+          <div>
+            <h2 className="token-details__title">{token.name}</h2>
+            <p className="token-details__symbol">{token.symbol}</p>
+          </div>
+        </div>
+        <div className="token-details__pricing">
+          <span className="token-details__price">
+            {formatCurrency(derivedPriceData?.usd ?? token.price, locale, {
+              currency: 'USD',
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 4,
+            })}
+          </span>
+          {changeDisplay ? (
+            <span className={`token-details__change ${changeClass}`}>{changeDisplay}</span>
+          ) : null}
+          <div className="token-details__price-tags">
+            {derivedPriceData?.cop ? (
+              <span>
+                {formatCurrency(derivedPriceData.cop, locale, {
+                  currency: 'COP',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 2,
+                })}
+              </span>
+            ) : null}
+            {derivedPriceData?.btc ? (
+              <span>
+                {formatCrypto(derivedPriceData.btc, locale, {
+                  symbol: 'BTC',
+                  minimumFractionDigits: 0,
+                  maximumFractionDigits: 8,
+                })}
+              </span>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      {isLoading ? <p className="app__status app__status--loading">{t('status.loading')}</p> : null}
+      {errorKey ? <p className="app__status app__status--error">{t(errorKey)}</p> : null}
+
+      <section className="token-details__grid">
+        <article className="token-details__card">
+          <h3>{t('details.marketData')}</h3>
+          <dl className="token-details__metrics">
+            {marketMetrics.map((metric) => (
+              <div key={metric.key} className="token-details__metric">
+                <dt>{t(`details.metricLabels.${metric.key}`)}</dt>
+                <dd>{metric.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+
+        <article className="token-details__card">
+          <h3>{t('details.supply')}</h3>
+          <dl className="token-details__metrics">
+            {supplyMetrics.map((metric) => (
+              <div key={metric.key} className="token-details__metric">
+                <dt>{metric.label}</dt>
+                <dd>{metric.value}</dd>
+              </div>
+            ))}
+          </dl>
+        </article>
+
+        <article className="token-details__card token-details__card--prices">
+          <h3>{t('details.prices')}</h3>
+          <ul className="token-details__price-list">
+            {priceRows.map((row) => (
+              <li key={row.key}>
+                <span className="token-details__price-label">{row.label}</span>
+                <span className="token-details__price-value">{row.value}</span>
+              </li>
+            ))}
+          </ul>
+          {!hasOracleData && priceRows.length === 0 ? (
+            <p className="token-details__placeholder">{t('details.pricesUnavailable')}</p>
+          ) : null}
+        </article>
+
+        <article className="token-details__card">
+          <h3>{t('details.contract')}</h3>
+          <dl className="token-details__metrics">
+            <div className="token-details__metric">
+              <dt>{t('details.address')}</dt>
+              <dd>
+                <code>{token.address}</code>
+              </dd>
+            </div>
+            {derivedPriceData?.wallet ? (
+              <div className="token-details__metric">
+                <dt>{t('details.oracleWallet')}</dt>
+                <dd>
+                  <code>{derivedPriceData.wallet}</code>
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+          <a
+            className="token-details__link"
+            href={token.website}
+            target="_blank"
+            rel="noreferrer noopener"
+          >
+            {t('details.visitWebsite')}
+          </a>
+        </article>
+      </section>
+
+      {token.description ? (
+        <section className="token-details__about">
+          <h3>{t('details.about', { token: token.name })}</h3>
+          <p>{token.description}</p>
+        </section>
+      ) : null}
+    </main>
+  );
+};
+
+export default TokenDetails;

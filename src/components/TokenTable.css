@@ -98,6 +98,15 @@
   background: var(--table-row-hover);
 }
 
+.token-table__row--interactive {
+  cursor: pointer;
+}
+
+.token-table__row--interactive:focus-visible {
+  outline: 3px solid var(--control-focus);
+  outline-offset: -3px;
+}
+
 .token-table__asset {
   display: flex;
   align-items: flex-start;

@@ -1,31 +1,73 @@
 import { useEffect, useMemo, useState } from 'react';
 import { priceContractAddress, rpcUrl } from '../config/environment.ts';
-import { getConfiguredTokens, sortTokens } from '../config/tokens.ts';
+import { getConfiguredTokens } from '../config/tokens.ts';
 import type { Token } from '../types/token.ts';
+import type { TokenPrice } from '../types/price.ts';
 import { fetchOnChainPrice } from '../services/priceClient.ts';
 
-type UseTokensDataResult = {
+type UseTokenListResult = {
   tokens: Token[];
   isLoading: boolean;
   errorKey: string | null;
   lastUpdated: Date | null;
 };
 
-export const useTokensData = (): UseTokensDataResult => {
-  const baseTokens = useMemo(() => getConfiguredTokens(), []);
-  const [tokens, setTokens] = useState<Token[]>(baseTokens);
-  const [isLoading, setIsLoading] = useState<boolean>(baseTokens.length > 0);
+type UseTokenDetailsResult = {
+  token: Token | null;
+  priceData: TokenPrice | null;
+  isLoading: boolean;
+  errorKey: string | null;
+  lastUpdated: Date | null;
+};
+
+export const useTokenList = (): UseTokenListResult => {
+  const tokens = useMemo(() => getConfiguredTokens(), []);
+
+  return {
+    tokens,
+    isLoading: false,
+    errorKey: null,
+    lastUpdated: null,
+  };
+};
+
+export const useTokenDetails = (symbol?: string): UseTokenDetailsResult => {
+  const tokens = useMemo(() => getConfiguredTokens(), []);
+  const token = useMemo(() => {
+    if (!symbol) {
+      return null;
+    }
+
+    const normalized = symbol.toLowerCase();
+    return tokens.find((item) => item.symbol.toLowerCase() === normalized) ?? null;
+  }, [symbol, tokens]);
+
+  const [priceData, setPriceData] = useState<TokenPrice | null>(() => token?.priceData ?? null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [errorKey, setErrorKey] = useState<string | null>(null);
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null);
 
   useEffect(() => {
-    if (!baseTokens.length) {
+    setPriceData(token?.priceData ?? null);
+    setLastUpdated(null);
+    setErrorKey(null);
+    setIsLoading(false);
+
+    if (!token) {
       setIsLoading(false);
       return;
     }
 
     if (!priceContractAddress || !rpcUrl) {
-      setErrorKey('status.missingConfig');
+      if (!token.priceData) {
+        setErrorKey('status.missingConfig');
+      }
+      setIsLoading(false);
+      return;
+    }
+
+    const lookupKey = (token.priceId ?? token.name).trim();
+    if (!lookupKey) {
       setIsLoading(false);
       return;
     }
@@ -34,50 +76,23 @@ export const useTokensData = (): UseTokensDataResult => {
 
     const refresh = async () => {
       setIsLoading(true);
-      let encounteredError = false;
 
       try {
-        const updatedTokens = await Promise.all(
-          baseTokens.map(async (token) => {
-            const lookupKey = (token.priceId ?? token.name).trim();
-            if (!lookupKey) {
-              return token;
-            }
-
-            try {
-              const priceData = await fetchOnChainPrice(lookupKey);
-              if (!priceData || !priceData.status) {
-                return token;
-              }
-
-              return {
-                ...token,
-                price: priceData.usd,
-                priceData,
-              };
-            } catch (error) {
-              console.warn(`Failed to fetch on-chain price for ${token.name}`, error);
-              encounteredError = true;
-              return token;
-            }
-          }),
-        );
-
+        const data = await fetchOnChainPrice(lookupKey);
         if (cancelled) {
           return;
         }
 
-        setTokens(sortTokens(updatedTokens));
-        setLastUpdated(new Date());
-        setErrorKey(encounteredError ? 'status.error' : null);
+        if (data && data.status) {
+          setPriceData(data);
+          setLastUpdated(new Date());
+        } else if (!token.priceData) {
+          setErrorKey('status.error');
+        }
       } catch (error) {
-        console.error('Unable to refresh token prices from the blockchain', error);
-        if (cancelled) {
-          return;
+        if (!cancelled && !token.priceData) {
+          setErrorKey('status.error');
         }
-
-        setTokens(baseTokens);
-        setErrorKey('status.error');
       } finally {
         if (!cancelled) {
           setIsLoading(false);
@@ -90,10 +105,11 @@ export const useTokensData = (): UseTokensDataResult => {
     return () => {
       cancelled = true;
     };
-  }, [baseTokens, priceContractAddress, rpcUrl]);
+  }, [token]);
 
   return {
-    tokens,
+    token,
+    priceData,
     isLoading,
     errorKey,
     lastUpdated,
