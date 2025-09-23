@@ -26,7 +26,7 @@ const resources = {
         nativeBadge: 'Native asset',
         empty: 'No tokens available. Update the configuration to display assets.',
       },
-      footer: 'Built for the Scol community.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   es: {
@@ -53,7 +53,7 @@ const resources = {
         nativeBadge: 'Activo nativo',
         empty: 'No hay tokens disponibles. Actualiza la configuración para mostrarlos.',
       },
-      footer: 'Construido para la comunidad Scol.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   fr: {
@@ -80,7 +80,7 @@ const resources = {
         nativeBadge: 'Actif natif',
         empty: 'Aucun token disponible. Mettez à jour la configuration pour les afficher.',
       },
-      footer: 'Construit pour la communauté Scol.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   hi: {
@@ -107,7 +107,7 @@ const resources = {
         nativeBadge: 'मूल टोकन',
         empty: 'कोई टोकन उपलब्ध नहीं है। कृपया उन्हें दिखाने के लिए कॉन्फ़िगरेशन अपडेट करें।',
       },
-      footer: 'स्कोल समुदाय के लिए निर्मित।',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   zh: {
@@ -134,7 +134,7 @@ const resources = {
         nativeBadge: '原生资产',
         empty: '暂时没有可用的代币，请更新配置后查看。',
       },
-      footer: '为 Scol 社区打造。',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   ru: {
@@ -161,7 +161,7 @@ const resources = {
         nativeBadge: 'Базовый актив',
         empty: 'Токены отсутствуют. Обновите конфигурацию, чтобы показать активы.',
       },
-      footer: 'Создано для сообщества Scol.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   ar: {
@@ -188,7 +188,7 @@ const resources = {
         nativeBadge: 'الأصل الأساسي',
         empty: 'لا توجد رموز متاحة. حدّث الإعدادات لإظهار الأصول.',
       },
-      footer: 'مصمم من أجل مجتمع سكول.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
   de: {
@@ -215,7 +215,7 @@ const resources = {
         nativeBadge: 'Nativer Vermögenswert',
         empty: 'Keine Token vorhanden. Bitte Konfiguration aktualisieren.',
       },
-      footer: 'Für die Scol-Community entwickelt.',
+      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
     },
   },
 };
