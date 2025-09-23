@@ -1,3 +1,5 @@
+import type { TokenPrice } from './price.ts';
+
 export interface Token {
   symbol: string;
   name: string;
@@ -13,4 +15,6 @@ export interface Token {
   maxSupply?: number | null;
   circulatingSupply?: number | null;
   isNative?: boolean;
+  priceId?: string;
+  priceData?: TokenPrice;
 }
