@@ -12,12 +12,15 @@ const resources = {
         updated: 'Data refreshed {{time}}',
         lastUpdated: 'Last update',
         notAvailable: 'Not available',
+        disclaimerTitle: 'Stay informed',
         disclaimer: 'All metrics are illustrative and sourced from the configured environment feed.',
       },
       status: {
         loading: 'Loading on-chain prices…',
         error: 'Unable to update prices from the blockchain. Showing configured values.',
         missingConfig: 'Set the price contract address and RPC endpoint to enable live prices.',
+        processing: 'Processing market data…',
+        processingDescription: 'Please wait while we synchronise the latest token information.',
       },
       table: {
         headers: {
@@ -48,12 +51,15 @@ const resources = {
         updated: 'Datos actualizados {{time}}',
         lastUpdated: 'Última actualización',
         notAvailable: 'No disponible',
+        disclaimerTitle: 'Información importante',
         disclaimer: 'Todos los indicadores son ilustrativos y provienen de la configuración del entorno.',
       },
       status: {
         loading: 'Cargando precios on-chain…',
         error: 'No fue posible actualizar los precios desde la blockchain. Se muestran los valores configurados.',
         missingConfig: 'Configura la dirección del contrato y el nodo RPC para habilitar los precios en vivo.',
+        processing: 'Procesando datos del mercado…',
+        processingDescription: 'Por favor espera mientras sincronizamos la información más reciente de los tokens.',
       },
       table: {
         headers: {
@@ -84,12 +90,15 @@ const resources = {
         updated: 'Données actualisées {{time}}',
         lastUpdated: 'Dernière mise à jour',
         notAvailable: 'Non disponible',
+        disclaimerTitle: 'Informations clés',
         disclaimer: 'Toutes les métriques sont indicatives et proviennent de la configuration de l’environnement.',
       },
       status: {
         loading: 'Chargement des prix on-chain…',
         error: 'Impossible de mettre à jour les prix depuis la blockchain. Affichage des valeurs configurées.',
         missingConfig: 'Configurez l’adresse du contrat et le nœud RPC pour activer les prix en direct.',
+        processing: 'Traitement des données de marché…',
+        processingDescription: 'Veuillez patienter pendant la synchronisation des dernières informations sur les tokens.',
       },
       table: {
         headers: {
@@ -120,12 +129,15 @@ const resources = {
         updated: 'डेटा {{time}} अद्यतन',
         lastUpdated: 'अंतिम अद्यतन',
         notAvailable: 'उपलब्ध नहीं',
+        disclaimerTitle: 'महत्वपूर्ण जानकारी',
         disclaimer: 'सभी आँकड़े उदाहरणार्थ हैं और पर्यावरण विन्यास से प्राप्त होते हैं।',
       },
       status: {
         loading: 'ऑन-चेन मूल्य लोड हो रहे हैं…',
         error: 'ब्लॉकचेन से मूल्य अपडेट नहीं हो सके। कॉन्फ़िगर किए गए मान दिखाए जा रहे हैं।',
         missingConfig: 'लाइव मूल्यों के लिए अनुबंध पता और RPC नोड कॉन्फ़िगर करें।',
+        processing: 'बाज़ार डेटा संसाधित हो रहा है…',
+        processingDescription: 'कृपया प्रतीक्षा करें जब तक हम नवीनतम टोकन जानकारी समन्वयित करते हैं।',
       },
       table: {
         headers: {
@@ -156,12 +168,15 @@ const resources = {
         updated: '数据已于 {{time}} 更新',
         lastUpdated: '最近更新时间',
         notAvailable: '暂无数据',
+        disclaimerTitle: '重要提示',
         disclaimer: '所有指标仅供参考，来源于环境配置的数据。',
       },
       status: {
         loading: '正在加载链上价格…',
         error: '无法从区块链更新价格，显示配置中的数值。',
         missingConfig: '请配置价格合约地址和 RPC 节点以启用实时价格。',
+        processing: '正在处理市场数据…',
+        processingDescription: '请稍候，我们正在同步最新的代币信息。',
       },
       table: {
         headers: {
@@ -192,12 +207,15 @@ const resources = {
         updated: 'Данные обновлены {{time}}',
         lastUpdated: 'Время последнего обновления',
         notAvailable: 'Недоступно',
+        disclaimerTitle: 'Важная информация',
         disclaimer: 'Все показатели являются демонстрационными и поступают из настроек окружения.',
       },
       status: {
         loading: 'Загружаем цены из блокчейна…',
         error: 'Не удалось обновить цены из блокчейна. Показаны настроенные значения.',
         missingConfig: 'Укажите адрес контракта и RPC-узел, чтобы включить актуальные цены.',
+        processing: 'Обрабатываем рыночные данные…',
+        processingDescription: 'Пожалуйста, подождите, мы синхронизируем актуальную информацию о токенах.',
       },
       table: {
         headers: {
@@ -228,12 +246,15 @@ const resources = {
         updated: 'تم تحديث البيانات {{time}}',
         lastUpdated: 'آخر تحديث',
         notAvailable: 'غير متوفر',
+        disclaimerTitle: 'معلومات مهمة',
         disclaimer: 'جميع المؤشرات توضيحية ويتم الحصول عليها من إعدادات بيئة العمل.',
       },
       status: {
         loading: 'جاري تحميل الأسعار من السلسلة…',
         error: 'تعذّر تحديث الأسعار من البلوكشين. يتم عرض القيم المكوّنة.',
         missingConfig: 'يرجى ضبط عنوان العقد ونقطة RPC لتفعيل الأسعار المباشرة.',
+        processing: 'جارٍ معالجة بيانات السوق…',
+        processingDescription: 'يرجى الانتظار بينما نقوم بمزامنة أحدث معلومات الرموز.',
       },
       table: {
         headers: {
@@ -264,12 +285,15 @@ const resources = {
         updated: 'Daten aktualisiert {{time}}',
         lastUpdated: 'Letzte Aktualisierung',
         notAvailable: 'Nicht verfügbar',
+        disclaimerTitle: 'Wichtige Hinweise',
         disclaimer: 'Alle Kennzahlen dienen nur zur Veranschaulichung und stammen aus der Umgebungs-Konfiguration.',
       },
       status: {
         loading: 'On-Chain-Preise werden geladen…',
         error: 'Preise konnten nicht aus der Blockchain aktualisiert werden. Angezeigte Werte stammen aus der Konfiguration.',
         missingConfig: 'Bitte Vertragsadresse und RPC-Endpunkt konfigurieren, um Live-Preise zu aktivieren.',
+        processing: 'Marktdaten werden verarbeitet…',
+        processingDescription: 'Bitte warten, während wir die neuesten Token-Informationen synchronisieren.',
       },
       table: {
         headers: {

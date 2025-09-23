@@ -17,7 +17,36 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
     value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
 
   if (!sortedTokens.length) {
-    return <p className="token-table__empty">{t('table.empty')}</p>;
+    return (
+      <div className="token-table__empty" role="status" aria-live="polite">
+        <span className="token-table__empty-icon" aria-hidden="true">
+          <svg viewBox="0 0 48 48" focusable="false">
+            <rect
+              x="6"
+              y="12"
+              width="36"
+              height="26"
+              rx="4"
+              fill="currentColor"
+              opacity="0.08"
+            />
+            <path
+              d="M14 21.5h8M14 28h4.5"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              opacity="0.7"
+            />
+            <path
+              d="M24.5 28H34L30.5 22l-3.5 6Z"
+              fill="currentColor"
+              opacity="0.22"
+            />
+          </svg>
+        </span>
+        <p className="token-table__empty-text">{t('table.empty')}</p>
+      </div>
+    );
   }
 
   const renderPrice = (token: Token) => {
@@ -149,7 +178,26 @@ export const TokenTable = ({ tokens, locale }: TokenTableProps) => {
                     target="_blank"
                     rel="noreferrer noopener"
                   >
-                    {t('table.visitSite')}
+                    <span className="token-table__link-icon" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" focusable="false">
+                        <path
+                          d="M7.5 12.5 12.5 7.5M8 7.5h4.5V12"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                        <path
+                          d="M8 4.5H5.75A1.75 1.75 0 0 0 4 6.25v7.5A1.75 1.75 0 0 0 5.75 15.5h7.5a1.75 1.75 0 0 0 1.75-1.75V11"
+                          stroke="currentColor"
+                          strokeWidth="1.6"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          opacity="0.7"
+                        />
+                      </svg>
+                    </span>
+                    <span className="token-table__link-text">{t('table.visitSite')}</span>
                   </a>
                 </td>
               </tr>
