@@ -46,9 +46,17 @@ Variables disponibles:
 
 ## Scripts disponibles
 
-- `npm run dev`: inicia el servidor de desarrollo de Vite.
+- `npm run dev`: inicia el servidor de desarrollo de Vite (escucha en el puerto 4687).
 - `npm run build`: genera la versión optimizada para producción.
-- `npm run preview`: sirve la build generada localmente.
+- `npm run preview`: sirve la build generada localmente (también en el puerto 4687).
+
+> **Tip:** si necesitas exponer el servidor de desarrollo o previsualización a la red, recuerda pasar los flags después de `--` p
+ara que lleguen a Vite. Por ejemplo:
+>
+> ```bash
+> npm run dev -- --host 0.0.0.0
+> npm run preview -- --host 0.0.0.0
+> ```
 
 ## Despliegue como servicio systemd en Linux
 
@@ -56,7 +64,7 @@ Asumiendo que el código se encuentra en /opt/cex-p2p, para ejecutar la aplicaci
 
 ```bash
 npm run build
-npm run preview -- --host 0.0.0.0 --port 4173
+npm run preview -- --host 0.0.0.0 --port 4687
 ```
 
 Una vez que confirmes que todo funciona, crea el archivo de servicio. Por ejemplo:
@@ -75,7 +83,7 @@ After=network.target
 [Service]
 Type=simple
 WorkingDirectory=/ruta/a/ScolMarkets
-ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4173
+ExecStart=/usr/bin/npm run preview -- --host 0.0.0.0 --port 4687
 Restart=always
 Environment=NODE_ENV=production
 User=www-data
