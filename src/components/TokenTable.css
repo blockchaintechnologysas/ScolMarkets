@@ -10,8 +10,7 @@
 .token-table {
   width: 100%;
   border-collapse: collapse;
-  min-width: 960px;
-
+  min-width: 820px;
 }
 
 .token-table--animated .token-table__row {
@@ -152,26 +151,6 @@
   color: var(--description-color);
   font-size: 0.85rem;
   max-width: 480px;
-}
-
-.token-table__change {
-  font-weight: 600;
-  padding: 6px 12px;
-  border-radius: 999px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 96px;
-}
-
-.token-table__change.positive {
-  background: var(--positive-bg);
-  color: var(--positive-text);
-}
-
-.token-table__change.negative {
-  background: var(--negative-bg);
-  color: var(--negative-text);
 }
 
 .token-table__website-cell {
