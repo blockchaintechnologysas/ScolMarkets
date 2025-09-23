@@ -70,6 +70,7 @@ npm run preview -- --host 0.0.0.0 --port 4687
 Una vez que confirmes que todo funciona, crea el archivo de servicio. Por ejemplo:
 
 ```bash
+sudo useradd --system --home /opt/cex-p2p --shell /usr/sbin/nologin web-list
 sudo nano /etc/systemd/system/web-list.service
 ```
 
