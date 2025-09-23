@@ -20,6 +20,21 @@ type Metric = {
 const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
   value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
 
+const shortenAddress = (address: string) => {
+  if (!address) {
+    return '';
+  }
+
+  const trimmed = address.trim();
+  if (trimmed.length <= 12) {
+    return trimmed;
+  }
+
+  return `${trimmed.slice(0, 6)}…${trimmed.slice(-4)}`;
+};
+
+const buildExplorerUrl = (address: string) => `https://explorador.scolcoin.com/token/${address}`;
+
 const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
   const sources = [priceData, token.priceData ?? null];
 
@@ -286,6 +301,12 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         return `${token.change24h >= 0 ? '+' : '-'}${formatted}`;
       })()
     : null;
+  const explorerUrl = useMemo(() => buildExplorerUrl(token.address), [token.address]);
+  const shortenedAddress = useMemo(() => shortenAddress(token.address), [token.address]);
+  const explorerLabel = useMemo(
+    () => `${t('details.openInExplorer', { token: token.symbol })}. ${token.address}`,
+    [t, token.address, token.symbol],
+  );
 
   return (
     <main className="token-details" aria-live="polite">
@@ -396,7 +417,36 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
             <div className="token-details__metric">
               <dt>{t('details.address')}</dt>
               <dd>
-                <code>{token.address}</code>
+                <a
+                  className="token-details__address-link"
+                  href={explorerUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  aria-label={explorerLabel}
+                  title={token.address}
+                >
+                  <code className="token-details__address-code">{shortenedAddress}</code>
+                  <span aria-hidden="true" className="token-details__external-icon">
+                    <svg viewBox="0 0 16 16" focusable="false">
+                      <path
+                        d="M6.25 3.5h6.25v6.25"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                      <path
+                        d="M9.75 6.25 3.5 12.5"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="1.3"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </a>
               </dd>
             </div>
             {derivedPriceData?.wallet ? (
@@ -408,15 +458,20 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
               </div>
             ) : null}
           </dl>
-          <a
-            className="token-details__link"
-            href={token.website}
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            {t('details.visitWebsite')}
-          </a>
         </article>
+        {token.website ? (
+          <article className="token-details__card token-details__card--website">
+            <h3>{t('details.website')}</h3>
+            <a
+              className="token-details__link"
+              href={token.website}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              {t('details.visitWebsite')}
+            </a>
+          </article>
+        ) : null}
       </section>
 
       {token.description ? (
