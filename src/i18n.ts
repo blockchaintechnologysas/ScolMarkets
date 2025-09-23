@@ -52,7 +52,7 @@ const resources = {
         lastUpdated: 'Última actualización',
         notAvailable: 'No disponible',
         disclaimerTitle: 'Información importante',
-        disclaimer: 'Todos los indicadores son ilustrativos y provienen de la configuración del entorno.',
+        disclaimer: 'Todos los indicadores son basados en Smart Contracts de Precios.',
       },
       status: {
         loading: 'Cargando precios on-chain…',
