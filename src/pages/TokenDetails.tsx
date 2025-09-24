@@ -18,6 +18,13 @@ type Metric = {
   value: string;
 };
 
+type PriceRow = {
+  key: string;
+  label: string;
+  value: string;
+  description: string;
+};
+
 
 type SocialDefinition = {
   key: TokenSocialKey;
@@ -141,7 +148,12 @@ const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
   }
 };
 
-const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
+const buildPriceRows = (
+  priceData: TokenPrice | null,
+  token: Token,
+  locale: string,
+  descriptions: Record<string, string>,
+): PriceRow[] => {
   const sources = [priceData, token.priceData ?? null];
 
   const getValue = (extract: (data: TokenPrice) => number | undefined): number | undefined => {
@@ -261,6 +273,7 @@ const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: stri
         key: entry.key,
         label: entry.label,
         value: entry.formatter(amount),
+        description: descriptions[entry.key] ?? entry.label,
       },
     ];
   });
@@ -431,9 +444,15 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     [lastUpdated, locale, t],
   );
 
+  const currencyDescriptions = useMemo(
+    () =>
+      (t('details.currencyDescriptions', { returnObjects: true }) as Record<string, string>) ?? {},
+    [i18n.language, t],
+  );
+
   const priceRows = useMemo(
-    () => (token ? buildPriceRows(priceData, token, locale) : []),
-    [locale, priceData, token],
+    () => (token ? buildPriceRows(priceData, token, locale, currencyDescriptions) : []),
+    [currencyDescriptions, locale, priceData, token],
   );
 
   const marketMetrics = useMemo(
@@ -717,12 +736,26 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           </div>
           <p className="token-details__oracle-hint">{oracleHint}</p>
           <ul className="token-details__price-list">
-            {priceRows.map((row) => (
-              <li key={row.key}>
-                <span className="token-details__price-label">{row.label}</span>
-                <span className="token-details__price-value">{row.value}</span>
-              </li>
-            ))}
+            {priceRows.map((row) => {
+              const tooltipId = `price-tooltip-${row.key}`;
+
+              return (
+                <li key={row.key}>
+                  <span
+                    className="token-details__price-label"
+                    tabIndex={0}
+                    aria-describedby={tooltipId}
+                    title={row.description}
+                  >
+                    {row.label}
+                    <span id={tooltipId} role="tooltip" className="token-details__price-tooltip">
+                      {row.description}
+                    </span>
+                  </span>
+                  <span className="token-details__price-value">{row.value}</span>
+                </li>
+              );
+            })}
           </ul>
           {!hasOracleData && priceRows.length === 0 ? (
             <p className="token-details__placeholder">{t('details.pricesUnavailable')}</p>
