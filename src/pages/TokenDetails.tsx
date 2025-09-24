@@ -328,6 +328,8 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     [t, token.address, token.isNative, token.symbol],
   );
 
+  const shouldRenderContractCard = !token.isNative || Boolean(derivedPriceData?.wallet);
+
   return (
     <main className="token-details" aria-live="polite">
       <button type="button" className="token-details__back" onClick={handleBackClick}>
@@ -392,6 +394,14 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
       {errorKey ? <p className="app__status app__status--error">{t(errorKey)}</p> : null}
 
       <section className="token-details__grid">
+        {token.isNative ? (
+          <article className="token-details__card token-details__card--native">
+            <span className="token-details__native-chip">{t('details.nativeHighlightBadge')}</span>
+            <h3 className="token-details__native-title">{t('details.nativeHighlightTitle')}</h3>
+            <p className="token-details__native-description">{t('details.nativeHighlightDescription')}</p>
+          </article>
+        ) : null}
+
         <article className="token-details__card">
           <h3>{t('details.marketData')}</h3>
           <dl className="token-details__metrics">
@@ -436,61 +446,58 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           ) : null}
         </article>
 
-        <article className="token-details__card">
-          <h3>{t('details.contract')}</h3>
-          {token.isNative ? (
-            <div className="token-details__native-highlight">
-              <span className="token-details__native-chip">{t('details.nativeHighlightBadge')}</span>
-              <h4 className="token-details__native-title">{t('details.nativeHighlightTitle')}</h4>
-              <p className="token-details__native-description">{t('details.nativeHighlightDescription')}</p>
-            </div>
-          ) : null}
-          <dl className="token-details__metrics">
-            <div className="token-details__metric">
-              <dt>{t(token.isNative ? 'details.accountsExplorer' : 'details.address')}</dt>
-              <dd>
-                <a
-                  className="token-details__address-link"
-                  href={explorerUrl}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label={explorerLabel}
-                  title={token.isNative ? explorerUrl : token.address}
-                >
-                  <code className="token-details__address-code">{explorerDisplay}</code>
-                  <span aria-hidden="true" className="token-details__external-icon">
-                    <svg viewBox="0 0 16 16" focusable="false">
-                      <path
-                        d="M6.25 3.5h6.25v6.25"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        d="M9.75 6.25 3.5 12.5"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="1.3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
-                </a>
-              </dd>
-            </div>
-            {derivedPriceData?.wallet ? (
-              <div className="token-details__metric">
-                <dt>{t('details.oracleWallet')}</dt>
-                <dd>
-                  <code>{derivedPriceData.wallet}</code>
-                </dd>
-              </div>
-            ) : null}
-          </dl>
-        </article>
+        {shouldRenderContractCard ? (
+          <article className="token-details__card">
+            <h3>{t('details.contract')}</h3>
+            <dl className="token-details__metrics">
+              {!token.isNative ? (
+                <div className="token-details__metric">
+                  <dt>{t('details.address')}</dt>
+                  <dd>
+                    <a
+                      className="token-details__address-link"
+                      href={explorerUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={explorerLabel}
+                      title={token.address}
+                    >
+                      <code className="token-details__address-code">{explorerDisplay}</code>
+                      <span aria-hidden="true" className="token-details__external-icon">
+                        <svg viewBox="0 0 16 16" focusable="false">
+                          <path
+                            d="M6.25 3.5h6.25v6.25"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M9.75 6.25 3.5 12.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </dd>
+                </div>
+              ) : null}
+              {derivedPriceData?.wallet ? (
+                <div className="token-details__metric">
+                  <dt>{t('details.oracleWallet')}</dt>
+                  <dd>
+                    <code>{derivedPriceData.wallet}</code>
+                  </dd>
+                </div>
+              ) : null}
+            </dl>
+          </article>
+        ) : null}
         {token.website ? (
           <article className="token-details__card token-details__card--website">
             <h3>{t('details.website')}</h3>
