@@ -23,7 +23,26 @@ type SocialDefinition = {
   key: TokenSocialKey;
   labelKey: string;
   renderIcon: () => ReactNode;
+};
 
+type WebsiteLinkIconType = 'website' | 'price' | 'wallet' | 'explorer';
+
+type WebsiteLinkKey = 'official' | 'price' | 'wallet' | 'explorer';
+
+type WebsiteLink = {
+  key: WebsiteLinkKey;
+  label: string;
+  href: string;
+  icon: WebsiteLinkIconType;
+};
+
+const sanitizeUrl = (value?: string | null): string | null => {
+  if (typeof value !== 'string') {
+    return null;
+  }
+
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : null;
 };
 
 const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
@@ -543,6 +562,57 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
   const shouldRenderContractCard =
     !token.isNative || Boolean(derivedPriceData?.wallet) || hasNativeContractInfo;
 
+  const websiteLinks = useMemo<WebsiteLink[]>(() => {
+    if (!token) {
+      return [];
+    }
+
+    const links: WebsiteLink[] = [];
+    const officialUrl = sanitizeUrl(token.website);
+    if (officialUrl) {
+      links.push({
+        key: 'official',
+        href: officialUrl,
+        label: t('details.websiteLinks.official'),
+        icon: 'website',
+      });
+    }
+
+    const priceUrl = sanitizeUrl(priceDashboardUrl);
+    if (priceUrl) {
+      links.push({
+        key: 'price',
+        href: priceUrl,
+        label: t('details.websiteLinks.price'),
+        icon: 'price',
+      });
+    }
+
+    const walletUrl = sanitizeUrl(scolWalletUrl);
+    if (walletUrl) {
+      links.push({
+        key: 'wallet',
+        href: walletUrl,
+        label: t('details.websiteLinks.wallet'),
+        icon: 'wallet',
+      });
+    }
+
+    const explorerUrl = sanitizeUrl(explorerHomepageUrl);
+    if (explorerUrl) {
+      links.push({
+        key: 'explorer',
+        href: explorerUrl,
+        label: t('details.websiteLinks.explorer'),
+        icon: 'explorer',
+      });
+    }
+
+    return links;
+  }, [t, token]);
+
+  const shouldRenderWebsiteSection = websiteLinks.some((link) => link.key === 'official');
+
   return (
     <main className="token-details" aria-live="polite">
       <button type="button" className="token-details__back" onClick={handleBackClick}>
@@ -772,8 +842,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
             </ul>
           </article>
         ) : null}
-        {token.website ? (
-
+        {shouldRenderWebsiteSection ? (
           <article className="token-details__card token-details__card--website">
             <h3>{t('details.website')}</h3>
             <div className="token-details__link-list">
