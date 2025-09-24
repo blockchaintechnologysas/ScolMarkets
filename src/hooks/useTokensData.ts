@@ -1,6 +1,6 @@
 
 import { useEffect, useMemo, useState } from 'react';
-import { priceContractAddress, rpcUrl } from '../config/environment.ts';
+import { priceContractAddress, rpcUrls } from '../config/environment.ts';
 import { getConfiguredTokens } from '../config/tokens.ts';
 import type { Token } from '../types/token.ts';
 import type { TokenPrice } from '../types/price.ts';
@@ -59,7 +59,7 @@ export const useTokenDetails = (symbol?: string): UseTokenDetailsResult => {
       return;
     }
 
-    if (!priceContractAddress || !rpcUrl) {
+    if (!priceContractAddress || rpcUrls.length === 0) {
       if (!token.priceData) {
         setErrorKey('status.missingConfig');
       }

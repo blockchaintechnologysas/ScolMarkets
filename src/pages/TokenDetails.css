@@ -256,6 +256,49 @@
   padding-bottom: 28px;
 }
 
+.token-details__oracle-status {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+  font-size: 0.85rem;
+}
+
+.token-details__oracle-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.token-details__oracle-badge--online {
+  background: var(--positive-bg);
+  color: var(--positive-text);
+}
+
+.token-details__oracle-badge--offline {
+  background: var(--negative-bg);
+  color: var(--negative-text);
+}
+
+.token-details__oracle-updated {
+  color: var(--text-muted);
+  font-weight: 600;
+}
+
+.token-details__oracle-hint {
+  margin: 0 0 18px;
+  color: var(--text-soft);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
 .token-details__price-list {
   list-style: none;
   margin: 0;

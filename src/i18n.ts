@@ -52,6 +52,14 @@ const resources = {
         openInExplorer: 'Open {{token}} in Scolcoin Explorer',
         visitWebsite: 'Visit official website',
         pricesUnavailable: 'Live prices will appear once the oracle responds.',
+        oracleStatus: {
+          online: 'Oracle online',
+          offline: 'Oracle offline',
+        },
+        oracleUpdated: 'Updated {{time}}',
+        oraclePending: 'Awaiting oracle update',
+        oracleLive: 'Displaying live prices streamed directly from the smart contract.',
+        oracleFallback: 'Showing configured baseline values until the oracle responds.',
         notFoundTitle: 'Token not found',
         notFoundDescription:
           'We could not locate this asset in the configured list. Return to the main view to explore the available markets.',
@@ -115,6 +123,14 @@ const resources = {
         openInExplorer: 'Abrir {{token}} en el explorador de Scolcoin',
         visitWebsite: 'Sitio web oficial',
         pricesUnavailable: 'Los precios en vivo aparecerán cuando el oráculo responda.',
+        oracleStatus: {
+          online: 'Oráculo en línea',
+          offline: 'Oráculo sin conexión',
+        },
+        oracleUpdated: 'Actualizado {{time}}',
+        oraclePending: 'Esperando actualización del oráculo',
+        oracleLive: 'Mostrando precios en vivo tomados directamente del smart contract.',
+        oracleFallback: 'Mostrando los valores configurados mientras el oráculo responde.',
         notFoundTitle: 'Token no encontrado',
         notFoundDescription:
           'No pudimos localizar este activo en la lista configurada. Regresa al panel principal para explorar los mercados disponibles.',
@@ -178,6 +194,14 @@ const resources = {
         openInExplorer: 'Ouvrir dans l’explorateur Scolcoin',
         visitWebsite: 'Site officiel',
         pricesUnavailable: 'Les prix en direct apparaîtront lorsque l’oracle répondra.',
+        oracleStatus: {
+          online: 'Oracle en ligne',
+          offline: 'Oracle hors ligne',
+        },
+        oracleUpdated: 'Mis à jour {{time}}',
+        oraclePending: "En attente de l’actualisation de l’oracle",
+        oracleLive: 'Affichage des prix en direct fournis par le smart contract.',
+        oracleFallback: "Affichage des valeurs configurées en attendant la réponse de l’oracle.",
         notFoundTitle: 'Token introuvable',
         notFoundDescription:
           'Nous n’avons pas trouvé cet actif dans la liste configurée. Revenez à la vue principale pour explorer les marchés disponibles.',
@@ -241,6 +265,14 @@ const resources = {
         openInExplorer: '{{token}} को Scolcoin एक्सप्लोरर में खोलें',
         visitWebsite: 'आधिकारिक वेबसाइट',
         pricesUnavailable: 'ओरेकल के उत्तर देने पर लाइव मूल्य दिखाई देंगे.',
+        oracleStatus: {
+          online: 'ओरेकल ऑनलाइन',
+          offline: 'ओरेकल ऑफ़लाइन',
+        },
+        oracleUpdated: '{{time}} को अद्यतन',
+        oraclePending: 'ओरेकल अद्यतन की प्रतीक्षा',
+        oracleLive: 'स्मार्ट कॉन्ट्रैक्ट से सीधे प्राप्त वास्तविक समय मूल्य दिखाए जा रहे हैं।',
+        oracleFallback: 'ओरेकल उपलब्ध होने तक कॉन्फ़िगर किए गए मान दिखाए जा रहे हैं।',
         notFoundTitle: 'टोकन नहीं मिला',
         notFoundDescription:
           'हम इस संपत्ति को कॉन्फ़िगर की गई सूची में नहीं ढूंढ पाए। उपलब्ध बाज़ारों को देखने के लिए मुख्य दृश्य पर वापस जाएँ।',
@@ -304,6 +336,14 @@ const resources = {
         openInExplorer: '在 Scolcoin 浏览器中打开 {{token}}',
         visitWebsite: '官方网站',
         pricesUnavailable: '当预言机返回数据时，将显示实时价格。',
+        oracleStatus: {
+          online: '预言机在线',
+          offline: '预言机离线',
+        },
+        oracleUpdated: '{{time}} 更新',
+        oraclePending: '等待预言机更新',
+        oracleLive: '展示由智能合约直接提供的实时价格。',
+        oracleFallback: '在预言机恢复前显示配置的参考价格。',
         notFoundTitle: '未找到该代币',
         notFoundDescription: '我们在配置的列表中找不到此资产。返回主界面查看可用的市场。',
         metricLabels: {
@@ -366,6 +406,14 @@ const resources = {
         openInExplorer: 'Открыть {{token}} в обозревателе Scolcoin',
         visitWebsite: 'Официальный сайт',
         pricesUnavailable: 'Онлайн-цены появятся, когда оракул предоставит данные.',
+        oracleStatus: {
+          online: 'Оракул в сети',
+          offline: 'Оракул недоступен',
+        },
+        oracleUpdated: 'Обновлено {{time}}',
+        oraclePending: 'Ожидание обновления оракула',
+        oracleLive: 'Отображаются актуальные цены напрямую из смарт-контракта.',
+        oracleFallback: 'Показаны резервные значения, пока оракул не ответит.',
         notFoundTitle: 'Токен не найден',
         notFoundDescription:
           'Не удалось найти этот актив в настроенном списке. Вернитесь на главную страницу, чтобы просмотреть доступные рынки.',
@@ -429,6 +477,14 @@ const resources = {
         openInExplorer: 'افتح {{token}} في مستكشف Scolcoin',
         visitWebsite: 'الموقع الرسمي',
         pricesUnavailable: 'ستظهر الأسعار المباشرة عند استجابة الأوركل.',
+        oracleStatus: {
+          online: 'الأوراكل متصل',
+          offline: 'الأوراكل غير متصل',
+        },
+        oracleUpdated: 'تم التحديث {{time}}',
+        oraclePending: 'في انتظار تحديث الأوراكل',
+        oracleLive: 'يتم عرض الأسعار المباشرة المرسلة من العقد الذكي.',
+        oracleFallback: 'يتم عرض القيم الاحتياطية حتى يستجيب الأوراكل.',
         notFoundTitle: 'لم يتم العثور على الرمز',
         notFoundDescription:
           'تعذّر العثور على هذا الأصل في القائمة المُكوّنة. عُد إلى العرض الرئيسي لاستكشاف الأسواق المتاحة.',
@@ -492,6 +548,14 @@ const resources = {
         openInExplorer: '{{token}} im Scolcoin-Explorer öffnen',
         visitWebsite: 'Offizielle Website',
         pricesUnavailable: 'Live-Preise werden angezeigt, sobald das Oracle antwortet.',
+        oracleStatus: {
+          online: 'Orakel online',
+          offline: 'Orakel offline',
+        },
+        oracleUpdated: 'Aktualisiert {{time}}',
+        oraclePending: 'Warten auf Orakel-Update',
+        oracleLive: 'Live-Preise direkt aus dem Smart Contract werden angezeigt.',
+        oracleFallback: 'Es werden konfigurierte Referenzwerte angezeigt, bis das Orakel reagiert.',
         notFoundTitle: 'Token nicht gefunden',
         notFoundDescription:
           'Dieser Vermögenswert konnte in der konfigurierten Liste nicht gefunden werden. Kehre zur Hauptansicht zurück, um die verfügbaren Märkte zu entdecken.',

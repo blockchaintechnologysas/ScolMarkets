@@ -294,6 +294,15 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
 
   const hasOracleData = Boolean(priceData?.status);
   const derivedPriceData = priceData ?? token.priceData ?? null;
+  const oracleStatusKey = hasOracleData ? 'online' : 'offline';
+  const oracleBadgeClass = hasOracleData
+    ? 'token-details__oracle-badge--online'
+    : 'token-details__oracle-badge--offline';
+  const oracleStatusLabel = t(`details.oracleStatus.${oracleStatusKey}`);
+  const oracleUpdatedLabel = lastUpdated
+    ? t('details.oracleUpdated', { time: lastUpdatedLabel })
+    : t('details.oraclePending');
+  const oracleHint = hasOracleData ? t('details.oracleLive') : t('details.oracleFallback');
   const changeClass = token.change24h >= 0 ? 'token-details__change--positive' : 'token-details__change--negative';
   const changeDisplay = Number.isFinite(token.change24h)
     ? (() => {
@@ -398,6 +407,11 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
 
         <article className="token-details__card token-details__card--prices">
           <h3>{t('details.prices')}</h3>
+          <div className="token-details__oracle-status" role="status">
+            <span className={`token-details__oracle-badge ${oracleBadgeClass}`}>{oracleStatusLabel}</span>
+            <span className="token-details__oracle-updated">{oracleUpdatedLabel}</span>
+          </div>
+          <p className="token-details__oracle-hint">{oracleHint}</p>
           <ul className="token-details__price-list">
             {priceRows.map((row) => (
               <li key={row.key}>
