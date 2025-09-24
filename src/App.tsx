@@ -10,11 +10,13 @@ const languageOptions = [
   { code: 'en', label: 'English' },
   { code: 'es', label: 'Español' },
   { code: 'fr', label: 'Français' },
-  { code: 'hi', label: 'हिन्दी' },
-  { code: 'zh', label: '中文' },
-  { code: 'ru', label: 'Русский' },
-  { code: 'ar', label: 'العربية' },
+  { code: 'pt', label: 'Português' },
   { code: 'de', label: 'Deutsch' },
+  { code: 'hi', label: 'हिन्दी' },
+  { code: 'ru', label: 'Русский' },
+  { code: 'zh', label: '中文' },
+  { code: 'ja', label: '日本語' },
+  { code: 'ar', label: 'العربية' },
 ];
 
 const THEME_STORAGE_KEY = 'scolmarkets-theme';
