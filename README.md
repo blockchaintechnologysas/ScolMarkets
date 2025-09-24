@@ -44,7 +44,25 @@ Variables disponibles:
 - `VITE_NETWORK_NAME`: nombre de la red donde viven los tokens.
 - `VITE_PRICE_CONTRACT_ADDRESS`: dirección del contrato inteligente que expone la función `precios`.
 - `VITE_RPC_URL`: endpoint HTTP del nodo al que se le realizarán las llamadas `eth_call`.
-- `VITE_TOKENS_DATA`: arreglo serializado en formato JSON con los datos de cada token (símbolo, nombre, dirección, logo, sitio web, descripción y métricas numéricas). Puedes incluir opcionalmente `priceId` para indicar el identificador exacto usado en el contrato y el bloque `socials` con los enlaces de Facebook, Instagram, X, YouTube, TikTok, Reddit, Telegram y Discord.
+- `VITE_TOKENS_DATA`: arreglo serializado en formato JSON con los datos de cada token (símbolo, nombre, dirección, logo, sitio web, descripción y métricas numéricas). Puedes incluir opcionalmente `priceId` para indicar el identificador exacto usado en el contrato y el bloque `socials` con los enlaces de Facebook, Instagram, X, YouTube, TikTok, Reddit, Telegram y Discord. Envuelve el contenido entre comillas simples para mantener el formato multilínea legible:
+
+  ```env
+  VITE_TOKENS_DATA='[
+    {
+      "symbol": "SCOL",
+      "name": "Scolcoin",
+      "address": "0x...",
+      "logo": "https://...",
+      "website": "https://...",
+      "description": "...",
+      "socials": {
+        "facebook": "https://facebook.com/scolcoin",
+        "instagram": "https://instagram.com/scolcoin",
+        "x": "https://x.com/scolcoin"
+      }
+    }
+  ]'
+  ```
 
 > **Nota:** La aplicación solo consume la información que expones en `VITE_TOKENS_DATA`, por lo que no se muestran direcciones de contrato ni otros datos sensibles en la interfaz si decides omitirlos al renderizar.
 

@@ -356,7 +356,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
       }
 
       const label = t(`details.socialLabels.${definition.labelKey}`);
-      const description = t('details.socialVisit', { network: label, token: token.name });
+      const description = t('details.socialVisit', { network: label, token: token?.name ?? '' });
 
       return [
         {
@@ -368,7 +368,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         },
       ];
     });
-  }, [t, token.name, token.socials]);
+  }, [t, token]);
 
   const supplyMetrics = useMemo(() => {
     if (!token) {
