@@ -1,5 +1,17 @@
 import type { TokenPrice } from './price.ts';
 
+export type TokenSocialKey =
+  | 'facebook'
+  | 'instagram'
+  | 'x'
+  | 'youtube'
+  | 'tiktok'
+  | 'reddit'
+  | 'telegram'
+  | 'discord';
+
+export type TokenSocialLinks = Partial<Record<TokenSocialKey, string>>;
+
 export interface Token {
   symbol: string;
   name: string;
@@ -17,4 +29,5 @@ export interface Token {
   isNative?: boolean;
   priceId?: string;
   priceData?: TokenPrice;
+  socials?: TokenSocialLinks;
 }
