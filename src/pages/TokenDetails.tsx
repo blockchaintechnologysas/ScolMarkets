@@ -327,8 +327,10 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         : `${t('details.openInExplorer', { token: token.symbol })}. ${token.address}`,
     [t, token.address, token.isNative, token.symbol],
   );
+  const hasNativeContractInfo = token.isNative && Boolean(nativeAccountsExplorerUrl);
 
-  const shouldRenderContractCard = !token.isNative || Boolean(derivedPriceData?.wallet);
+  const shouldRenderContractCard =
+    !token.isNative || Boolean(derivedPriceData?.wallet) || hasNativeContractInfo;
 
   return (
     <main className="token-details" aria-live="polite">
@@ -450,6 +452,43 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           <article className="token-details__card">
             <h3>{t('details.contract')}</h3>
             <dl className="token-details__metrics">
+              {token.isNative && hasNativeContractInfo ? (
+                <div className="token-details__metric">
+                  <dt>{t('details.accountsExplorer')}</dt>
+                  <dd>
+                    <a
+                      className="token-details__address-link"
+                      href={nativeAccountsExplorerUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={explorerLabel}
+                      title={nativeAccountsExplorerUrl}
+                    >
+                      <code className="token-details__address-code">{nativeAccountsExplorerDisplay}</code>
+                      <span aria-hidden="true" className="token-details__external-icon">
+                        <svg viewBox="0 0 16 16" focusable="false">
+                          <path
+                            d="M6.25 3.5h6.25v6.25"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M9.75 6.25 3.5 12.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </dd>
+                </div>
+              ) : null}
               {!token.isNative ? (
                 <div className="token-details__metric">
                   <dt>{t('details.address')}</dt>
