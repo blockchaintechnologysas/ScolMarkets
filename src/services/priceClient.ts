@@ -1,4 +1,4 @@
-import { priceContractAddress, rpcUrl } from '../config/environment.ts';
+import { priceContractAddress, rpcUrls } from '../config/environment.ts';
 import type { TokenPrice } from '../types/price.ts';
 
 const PRECIOS_SELECTOR = '0x1002aa9d';
@@ -78,7 +78,7 @@ const decodePriceResult = (hex: string): TokenPrice | null => {
 };
 
 export const fetchOnChainPrice = async (tokenName: string): Promise<TokenPrice | null> => {
-  if (!priceContractAddress || !rpcUrl) {
+  if (!priceContractAddress || rpcUrls.length === 0) {
     throw new Error('Missing price contract configuration');
   }
 
@@ -101,26 +101,48 @@ export const fetchOnChainPrice = async (tokenName: string): Promise<TokenPrice |
     ],
   };
 
-  const response = await fetch(rpcUrl, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(payload),
-  });
+  let lastError: Error | null = null;
+  let receivedEmptyResult = false;
 
-  if (!response.ok) {
-    throw new Error(`RPC call failed with status ${response.status}`);
+  for (const endpoint of rpcUrls) {
+    try {
+      const response = await fetch(endpoint, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) {
+        lastError = new Error(`RPC call failed with status ${response.status}`);
+        continue;
+      }
+
+      const body = await response.json();
+
+      if ('error' in body) {
+        const message = body.error?.message ?? 'Unknown RPC error';
+        lastError = new Error(message);
+        continue;
+      }
+
+      const result = typeof body.result === 'string' ? body.result : '';
+      const decoded = decodePriceResult(result);
+
+      if (decoded) {
+        return decoded;
+      }
+
+      receivedEmptyResult = true;
+    } catch (error) {
+      lastError = error instanceof Error ? error : new Error(String(error));
+    }
   }
 
-  const body = await response.json();
-
-  if ('error' in body) {
-    const message = body.error?.message ?? 'Unknown RPC error';
-    throw new Error(message);
+  if (lastError && !receivedEmptyResult) {
+    throw lastError;
   }
 
-  const result = typeof body.result === 'string' ? body.result : '';
-
-  return decodePriceResult(result);
+  return null;
 };
