@@ -1,4 +1,4 @@
-import type { Token } from '../types/token.ts';
+import type { Token, TokenSocialKey, TokenSocialLinks } from '../types/token.ts';
 
 const rawTokens = import.meta.env.VITE_TOKENS_DATA;
 
@@ -15,6 +15,43 @@ export const sortTokens = (list: Token[]): Token[] =>
     return a.marketCap < b.marketCap ? 1 : -1;
   });
 
+const socialKeys: TokenSocialKey[] = [
+  'facebook',
+  'instagram',
+  'x',
+  'youtube',
+  'tiktok',
+  'reddit',
+  'telegram',
+  'discord',
+];
+
+const sanitizeSocials = (input?: TokenSocialLinks): TokenSocialLinks | undefined => {
+  if (!input) {
+    return undefined;
+  }
+
+  const entries = socialKeys.flatMap((key) => {
+    const value = input[key];
+    if (typeof value !== 'string') {
+      return [];
+    }
+
+    const trimmed = value.trim();
+    if (!trimmed) {
+      return [];
+    }
+
+    return [[key, trimmed] as const];
+  });
+
+  if (entries.length === 0) {
+    return undefined;
+  }
+
+  return Object.fromEntries(entries) as TokenSocialLinks;
+};
+
 const safeParseTokens = (): Token[] => {
   if (!rawTokens) {
     return [];
@@ -30,12 +67,15 @@ const safeParseTokens = (): Token[] => {
           ? token.priceId.trim()
           : derivePriceId(name);
 
+      const socials = sanitizeSocials(token.socials);
+
       return {
         ...token,
         symbol,
         name,
         priceId,
         isNative: symbol.toUpperCase() === 'SCOL',
+        socials,
       } as Token;
     });
 

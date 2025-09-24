@@ -1,8 +1,9 @@
 import { useEffect, useMemo } from 'react';
+import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
 import { platformName } from '../config/environment.ts';
 import { useTokenDetails } from '../hooks/useTokensData.ts';
-import type { Token } from '../types/token.ts';
+import type { Token, TokenSocialKey } from '../types/token.ts';
 import type { TokenPrice } from '../types/price.ts';
 import { formatCompactNumber, formatCrypto, formatCurrency, formatPercentage } from '../utils/format.ts';
 import './TokenDetails.css';
@@ -15,6 +16,12 @@ type TokenDetailsProps = {
 type Metric = {
   key: string;
   value: string;
+};
+
+type SocialDefinition = {
+  key: TokenSocialKey;
+  labelKey: string;
+  renderIcon: () => ReactNode;
 };
 
 const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
@@ -194,6 +201,104 @@ const buildMarketMetrics = (token: Token, locale: string, lastUpdatedLabel: stri
   ];
 };
 
+const socialDefinitions: readonly SocialDefinition[] = [
+  {
+    key: 'facebook',
+    labelKey: 'facebook',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M22 12a10 10 0 1 0-11.5 9.9v-7H8.8V11h1.7V9.3c0-1.7 1-3.4 3.4-3.4.7 0 1.5.1 2.2.2v2.4h-1.2c-1 0-1.4.6-1.4 1.3V11h2.6l-.4 3h-2.2v7A10 10 0 0 0 22 12Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'instagram',
+    labelKey: 'instagram',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <rect x="3" y="3" width="18" height="18" rx="5" ry="5" fill="none" stroke="currentColor" strokeWidth="2" />
+        <circle cx="12" cy="12" r="4.5" fill="none" stroke="currentColor" strokeWidth="2" />
+        <circle cx="17.5" cy="6.5" r="1.3" fill="currentColor" />
+      </svg>
+    ),
+  },
+  {
+    key: 'x',
+    labelKey: 'x',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M3 3h5l4 6 4-6h5l-7 9 7 9h-5l-4-6-4 6H3l7-9Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'youtube',
+    labelKey: 'youtube',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M21.6 8.2c-.2-1-.9-1.8-2-2C18 6 12 6 12 6s-6 0-7.6.2c-1.1.2-1.8 1-2 2C2 9.8 2 12 2 12s0 2.2.4 3.8c.2 1 .9 1.8 2 2C6 18 12 18 12 18s6 0 7.6-.2c1.1-.2 1.8-1 2-2 .4-1.6.4-3.8.4-3.8s0-2.2-.4-3.8ZM10 15.2V8.8l5.2 3.2Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'tiktok',
+    labelKey: 'tiktok',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M16.5 4c.4 1.2 1.4 2.1 2.7 2.3v3c-1.5-.1-2.9-.6-4-1.4v6.6c0 3.1-2.5 5.5-5.6 5.5S4 17.6 4 14.5c0-2.3 1.4-4.2 3.4-5v3c-.6.5-1 .9-1 1.7 0 1.1.9 2 2 2s2-.9 2-2V4h3a3 3 0 0 0 .1.8Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'reddit',
+    labelKey: 'reddit',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M21.3 12.3c0-1.3-1-2.3-2.2-2.3-.6 0-1.1.2-1.5.5-1-.7-2.4-1.2-3.9-1.2l.7-3.5 2.4.5c.1.7.7 1.3 1.5 1.3s1.5-.7 1.5-1.5S19.8 4.8 19 4.8c-.5 0-.9.2-1.3.6l-2.9-.6c-.2 0-.4.1-.5.3l-.8 3.8c-1.6 0-3.1.5-4.2 1.2-.4-.4-.9-.6-1.5-.6-1.2 0-2.2 1-2.2 2.3 0 .8.4 1.5 1 1.9-.1.3-.1.6-.1.9 0 2.5 2.7 4.5 6 4.5s6-2 6-4.5c0-.3 0-.6-.1-.9.6-.4 1-.1 1-1.9ZM8.4 14c0-.8.7-1.4 1.4-1.4s1.4.6 1.4 1.4-.6 1.4-1.4 1.4-1.4-.6-1.4-1.4Zm7.6 2.6c-.9 1-2.4 1.5-3.9 1.5s-3-.5-3.9-1.5c-.2-.2-.2-.4 0-.6s.4-.2.6 0c.7.8 1.9 1.2 3.3 1.2s2.6-.4 3.3-1.2c.2-.2.4-.2.6 0s.2.4 0 .6Zm-.6-1.2c-.8 0-1.4-.6-1.4-1.4s.6-1.4 1.4-1.4 1.4.6 1.4 1.4-.6 1.4-1.4 1.4Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'telegram',
+    labelKey: 'telegram',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="m21.5 4.2-18 7c-.8.3-.8 1.4 0 1.7l4.3 1.7 1.6 5.2c.2.7 1.1.8 1.5.2l2.2-2.8 4.3 3.2c.6.4 1.4.1 1.6-.6l2.6-14.1c.1-.8-.6-1.5-1.4-1.3Zm-5.1 4L10 13.3l-.2 3-1-3.5 7.6-4.6Z"
+        />
+      </svg>
+    ),
+  },
+  {
+    key: 'discord',
+    labelKey: 'discord',
+    renderIcon: () => (
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <path
+          fill="currentColor"
+          d="M21 6.5c-1.4-.6-2.8-1-4.3-1.2-.2.4-.5.8-.7 1.1-1.9-.3-3.9-.3-5.8 0-.2-.3-.5-.7-.7-1.1C7.7 5.5 6.3 6 4.9 6.5 2.8 11 2.1 15.2 2.3 19.5c1.9 1.3 3.9 1.8 6 1.9.5-.6.9-1.2 1.1-1.9-.7-.3-1.3-.6-2-.9.2-.2.3-.4.5-.7.7.3 1.4.6 2.1.8 1.3.3 2.7.3 4 0 .7-.2 1.4-.5 2.1-.8.2.2.3.5.5.7-.7.3-1.3.6-2 .9.3.7.7 1.3 1.1 1.9 2-.1 4.1-.6 6-1.9.2-4.3-.5-8.5-2.6-13Zm-9.3 9c-1 0-1.7-.8-1.7-1.8s.8-1.8 1.7-1.8 1.7.8 1.7 1.8-.8 1.8-1.7 1.8Zm4.7 0c-1 0-1.7-.8-1.7-1.8s.8-1.8 1.7-1.8 1.7.8 1.7 1.8-.8 1.8-1.7 1.8Z"
+        />
+      </svg>
+    ),
+  },
+];
+
 export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
   const { t, i18n } = useTranslation();
   const normalizedSymbol = symbol.toLowerCase();
@@ -238,6 +343,32 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     () => (token ? buildMarketMetrics(token, locale, lastUpdatedLabel) : []),
     [lastUpdatedLabel, locale, token],
   );
+
+  const socialLinks = useMemo(() => {
+    if (!token?.socials) {
+      return [];
+    }
+
+    return socialDefinitions.flatMap((definition) => {
+      const url = token.socials?.[definition.key];
+      if (!url) {
+        return [];
+      }
+
+      const label = t(`details.socialLabels.${definition.labelKey}`);
+      const description = t('details.socialVisit', { network: label, token: token.name });
+
+      return [
+        {
+          key: definition.key,
+          url,
+          label,
+          description,
+          renderIcon: definition.renderIcon,
+        },
+      ];
+    });
+  }, [t, token.name, token.socials]);
 
   const supplyMetrics = useMemo(() => {
     if (!token) {
@@ -496,6 +627,29 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
                 </div>
               ) : null}
             </dl>
+          </article>
+        ) : null}
+        {socialLinks.length > 0 ? (
+          <article className="token-details__card token-details__card--socials">
+            <h3>{t('details.socials')}</h3>
+            <ul className="token-details__social-list">
+              {socialLinks.map((item) => (
+                <li key={item.key}>
+                  <a
+                    className="token-details__social-link"
+                    href={item.url}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    aria-label={item.description}
+                    title={item.label}
+                  >
+                    <span aria-hidden="true" className="token-details__social-icon">
+                      {item.renderIcon()}
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
           </article>
         ) : null}
         {token.website ? (
