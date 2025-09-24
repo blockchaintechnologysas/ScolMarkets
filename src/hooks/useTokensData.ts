@@ -23,12 +23,13 @@ type UseTokenDetailsResult = {
 
 export const useTokenList = (): UseTokenListResult => {
   const tokens = useMemo(() => getConfiguredTokens(), []);
+  const lastUpdated = useMemo(() => new Date(), []);
 
   return {
     tokens,
     isLoading: false,
     errorKey: null,
-    lastUpdated: null,
+    lastUpdated,
   };
 };
 
