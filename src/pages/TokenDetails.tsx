@@ -17,6 +17,13 @@ type Metric = {
   value: string;
 };
 
+type WebsiteLink = {
+  key: string;
+  href: string;
+  label: string;
+  icon: 'website' | 'price' | 'wallet' | 'explorer';
+};
+
 const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
   value === null || value === undefined ? '—' : formatCompactNumber(value, locale);
 
@@ -35,7 +42,83 @@ const shortenAddress = (address: string) => {
 
 const buildExplorerUrl = (address: string) => `https://explorador.scolcoin.com/token/${address}`;
 const nativeAccountsExplorerUrl = 'https://explorador.scolcoin.com/accounts';
+const priceDashboardUrl = 'https://price.scolcoin.com/';
+const scolWalletUrl = 'https://wallet.scolcoin.com/';
+const explorerHomepageUrl = 'https://explorador.scolcoin.com/';
 const nativeAccountsExplorerDisplay = nativeAccountsExplorerUrl.replace(/^https?:\/\//, '');
+
+const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
+  switch (type) {
+    case 'website':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <path
+            d="M3.5 12h17M12 3c2.2 2.3 3.5 5.5 3.5 9s-1.3 6.7-3.5 9c-2.2-2.3-3.5-5.5-3.5-9S9.8 5.3 12 3Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case 'price':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <text
+            x="12"
+            y="16"
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="700"
+            fontFamily="inherit"
+            fill="currentColor"
+          >
+            $
+          </text>
+        </svg>
+      );
+    case 'wallet':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path
+            d="M3.5 8.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M18.5 10.5h2a1.8 1.8 0 0 1 0 3.6h-2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="16" cy="12.5" r="1" fill="currentColor" />
+        </svg>
+      );
+    case 'explorer':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="11" cy="11" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <path
+            d="m14.5 14.5 5 5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
   const sources = [priceData, token.priceData ?? null];
@@ -238,6 +321,48 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     () => (token ? buildMarketMetrics(token, locale, lastUpdatedLabel) : []),
     [lastUpdatedLabel, locale, token],
   );
+
+  const websiteLinks = useMemo<WebsiteLink[]>(() => {
+    if (!token) {
+      return [];
+    }
+
+    const links: WebsiteLink[] = [];
+
+    if (token.website) {
+      links.push({
+        key: 'official',
+        href: token.website,
+        label: t('details.websiteLinks.official'),
+        icon: 'website',
+      });
+    }
+
+    if (token.isNative) {
+      links.push(
+        {
+          key: 'price',
+          href: priceDashboardUrl,
+          label: t('details.websiteLinks.price'),
+          icon: 'price',
+        },
+        {
+          key: 'wallet',
+          href: scolWalletUrl,
+          label: t('details.websiteLinks.wallet'),
+          icon: 'wallet',
+        },
+        {
+          key: 'explorer',
+          href: explorerHomepageUrl,
+          label: t('details.websiteLinks.explorer'),
+          icon: 'explorer',
+        },
+      );
+    }
+
+    return links;
+  }, [t, token]);
 
   const supplyMetrics = useMemo(() => {
     if (!token) {
@@ -537,17 +662,25 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
             </dl>
           </article>
         ) : null}
-        {token.website ? (
+        {websiteLinks.length > 0 ? (
           <article className="token-details__card token-details__card--website">
             <h3>{t('details.website')}</h3>
-            <a
-              className="token-details__link"
-              href={token.website}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {t('details.visitWebsite')}
-            </a>
+            <div className="token-details__link-list">
+              {websiteLinks.map((link) => (
+                <a
+                  key={link.key}
+                  className="token-details__link"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span aria-hidden="true" className="token-details__link-icon">
+                    <WebsiteLinkIcon type={link.icon} />
+                  </span>
+                  <span className="token-details__link-label">{link.label}</span>
+                </a>
+              ))}
+            </div>
           </article>
         ) : null}
       </section>

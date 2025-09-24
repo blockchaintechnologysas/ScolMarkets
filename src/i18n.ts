@@ -51,6 +51,12 @@ const resources = {
         website: 'Official website',
         openInExplorer: 'Open {{token}} in Scolcoin Explorer',
         visitWebsite: 'Visit official website',
+        websiteLinks: {
+          official: 'Visit official website',
+          price: 'Open price dashboard',
+          wallet: 'Open Scolcoin Wallet',
+          explorer: 'Open Scolcoin Explorer',
+        },
         nativeHighlightBadge: 'Native currency',
         nativeHighlightTitle: "The network's native currency",
         nativeHighlightDescription:
@@ -128,6 +134,12 @@ const resources = {
         website: 'Sitio web oficial',
         openInExplorer: 'Abrir {{token}} en el explorador de Scolcoin',
         visitWebsite: 'Sitio web oficial',
+        websiteLinks: {
+          official: 'Sitio web oficial',
+          price: 'Abrir panel de precios',
+          wallet: 'Abrir la billetera Scolcoin',
+          explorer: 'Abrir el explorador de Scolcoin',
+        },
         nativeHighlightBadge: 'Moneda nativa',
         nativeHighlightTitle: 'La moneda nativa de la red',
         nativeHighlightDescription:
@@ -205,6 +217,12 @@ const resources = {
         website: 'Site officiel',
         openInExplorer: 'Ouvrir dans l’explorateur Scolcoin',
         visitWebsite: 'Site officiel',
+        websiteLinks: {
+          official: 'Visiter le site officiel',
+          price: 'Ouvrir le tableau des prix',
+          wallet: 'Ouvrir le portefeuille Scolcoin',
+          explorer: 'Ouvrir l’explorateur Scolcoin',
+        },
         nativeHighlightBadge: 'Actif natif',
         nativeHighlightTitle: 'La monnaie native du réseau',
         nativeHighlightDescription:
@@ -282,6 +300,12 @@ const resources = {
         website: 'आधिकारिक वेबसाइट',
         openInExplorer: '{{token}} को Scolcoin एक्सप्लोरर में खोलें',
         visitWebsite: 'आधिकारिक वेबसाइट',
+        websiteLinks: {
+          official: 'आधिकारिक वेबसाइट देखें',
+          price: 'मूल्य डैशबोर्ड खोलें',
+          wallet: 'Scolcoin वॉलेट खोलें',
+          explorer: 'Scolcoin एक्सप्लोरर खोलें',
+        },
         nativeHighlightBadge: 'मूल मुद्रा',
         nativeHighlightTitle: 'नेटवर्क की मूल मुद्रा',
         nativeHighlightDescription:
@@ -359,6 +383,12 @@ const resources = {
         website: '官方网站',
         openInExplorer: '在 Scolcoin 浏览器中打开 {{token}}',
         visitWebsite: '官方网站',
+        websiteLinks: {
+          official: '访问官方网站',
+          price: '打开价格面板',
+          wallet: '打开 Scolcoin 钱包',
+          explorer: '打开 Scolcoin 浏览器',
+        },
         nativeHighlightBadge: '原生货币',
         nativeHighlightTitle: '网络的原生货币',
         nativeHighlightDescription:
@@ -435,6 +465,12 @@ const resources = {
         website: 'Официальный сайт',
         openInExplorer: 'Открыть {{token}} в обозревателе Scolcoin',
         visitWebsite: 'Официальный сайт',
+        websiteLinks: {
+          official: 'Открыть официальный сайт',
+          price: 'Открыть панель цен',
+          wallet: 'Открыть кошелёк Scolcoin',
+          explorer: 'Открыть обозреватель Scolcoin',
+        },
         nativeHighlightBadge: 'Базовая монета',
         nativeHighlightTitle: 'Нативная валюта сети',
         nativeHighlightDescription:
@@ -512,6 +548,12 @@ const resources = {
         website: 'الموقع الرسمي',
         openInExplorer: 'افتح {{token}} في مستكشف Scolcoin',
         visitWebsite: 'الموقع الرسمي',
+        websiteLinks: {
+          official: 'زيارة الموقع الرسمي',
+          price: 'فتح لوحة الأسعار',
+          wallet: 'فتح محفظة Scolcoin',
+          explorer: 'فتح مستكشف Scolcoin',
+        },
         nativeHighlightBadge: 'العملة الأصلية',
         nativeHighlightTitle: 'العملة الأصلية للشبكة',
         nativeHighlightDescription:
@@ -589,6 +631,12 @@ const resources = {
         website: 'Offizielle Website',
         openInExplorer: '{{token}} im Scolcoin-Explorer öffnen',
         visitWebsite: 'Offizielle Website',
+        websiteLinks: {
+          official: 'Offizielle Website öffnen',
+          price: 'Preis-Dashboard öffnen',
+          wallet: 'Scolcoin-Wallet öffnen',
+          explorer: 'Scolcoin-Explorer öffnen',
+        },
         nativeHighlightBadge: 'Native Währung',
         nativeHighlightTitle: 'Die native Währung des Netzwerks',
         nativeHighlightDescription:
