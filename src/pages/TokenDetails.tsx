@@ -18,10 +18,12 @@ type Metric = {
   value: string;
 };
 
+
 type SocialDefinition = {
   key: TokenSocialKey;
   labelKey: string;
   renderIcon: () => ReactNode;
+
 };
 
 const formatSupplyValue = (value: Token['totalSupply'], locale: string) =>
@@ -42,7 +44,83 @@ const shortenAddress = (address: string) => {
 
 const buildExplorerUrl = (address: string) => `https://explorador.scolcoin.com/token/${address}`;
 const nativeAccountsExplorerUrl = 'https://explorador.scolcoin.com/accounts';
+const priceDashboardUrl = 'https://price.scolcoin.com/';
+const scolWalletUrl = 'https://wallet.scolcoin.com/';
+const explorerHomepageUrl = 'https://explorador.scolcoin.com/';
 const nativeAccountsExplorerDisplay = nativeAccountsExplorerUrl.replace(/^https?:\/\//, '');
+
+const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
+  switch (type) {
+    case 'website':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <path
+            d="M3.5 12h17M12 3c2.2 2.3 3.5 5.5 3.5 9s-1.3 6.7-3.5 9c-2.2-2.3-3.5-5.5-3.5-9S9.8 5.3 12 3Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    case 'price':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <text
+            x="12"
+            y="16"
+            textAnchor="middle"
+            fontSize="11"
+            fontWeight="700"
+            fontFamily="inherit"
+            fill="currentColor"
+          >
+            $
+          </text>
+        </svg>
+      );
+    case 'wallet':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <path
+            d="M3.5 8.5a2 2 0 0 1 2-2h11a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-11a2 2 0 0 1-2-2Z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinejoin="round"
+          />
+          <path
+            d="M18.5 10.5h2a1.8 1.8 0 0 1 0 3.6h-2"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+          <circle cx="16" cy="12.5" r="1" fill="currentColor" />
+        </svg>
+      );
+    case 'explorer':
+      return (
+        <svg viewBox="0 0 24 24" focusable="false">
+          <circle cx="11" cy="11" r="5.5" fill="none" stroke="currentColor" strokeWidth="1.6" />
+          <path
+            d="m14.5 14.5 5 5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.6"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      );
+    default:
+      return null;
+  }
+};
 
 const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
   const sources = [priceData, token.priceData ?? null];
@@ -344,6 +422,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     [lastUpdatedLabel, locale, token],
   );
 
+
   const socialLinks = useMemo(() => {
     if (!token?.socials) {
       return [];
@@ -368,6 +447,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         },
       ];
     });
+
   }, [t, token]);
 
   const supplyMetrics = useMemo(() => {
@@ -458,8 +538,10 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         : `${t('details.openInExplorer', { token: token.symbol })}. ${token.address}`,
     [t, token.address, token.isNative, token.symbol],
   );
+  const hasNativeContractInfo = token.isNative && Boolean(nativeAccountsExplorerUrl);
 
-  const shouldRenderContractCard = !token.isNative || Boolean(derivedPriceData?.wallet);
+  const shouldRenderContractCard =
+    !token.isNative || Boolean(derivedPriceData?.wallet) || hasNativeContractInfo;
 
   return (
     <main className="token-details" aria-live="polite">
@@ -581,6 +663,43 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           <article className="token-details__card">
             <h3>{t('details.contract')}</h3>
             <dl className="token-details__metrics">
+              {token.isNative && hasNativeContractInfo ? (
+                <div className="token-details__metric">
+                  <dt>{t('details.accountsExplorer')}</dt>
+                  <dd>
+                    <a
+                      className="token-details__address-link"
+                      href={nativeAccountsExplorerUrl}
+                      target="_blank"
+                      rel="noreferrer noopener"
+                      aria-label={explorerLabel}
+                      title={nativeAccountsExplorerUrl}
+                    >
+                      <code className="token-details__address-code">{nativeAccountsExplorerDisplay}</code>
+                      <span aria-hidden="true" className="token-details__external-icon">
+                        <svg viewBox="0 0 16 16" focusable="false">
+                          <path
+                            d="M6.25 3.5h6.25v6.25"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                          <path
+                            d="M9.75 6.25 3.5 12.5"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="1.3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </span>
+                    </a>
+                  </dd>
+                </div>
+              ) : null}
               {!token.isNative ? (
                 <div className="token-details__metric">
                   <dt>{t('details.address')}</dt>
@@ -629,6 +748,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
             </dl>
           </article>
         ) : null}
+
         {socialLinks.length > 0 ? (
           <article className="token-details__card token-details__card--socials">
             <h3>{t('details.socials')}</h3>
@@ -653,16 +773,25 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           </article>
         ) : null}
         {token.website ? (
+
           <article className="token-details__card token-details__card--website">
             <h3>{t('details.website')}</h3>
-            <a
-              className="token-details__link"
-              href={token.website}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              {t('details.visitWebsite')}
-            </a>
+            <div className="token-details__link-list">
+              {websiteLinks.map((link) => (
+                <a
+                  key={link.key}
+                  className="token-details__link"
+                  href={link.href}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  <span aria-hidden="true" className="token-details__link-icon">
+                    <WebsiteLinkIcon type={link.icon} />
+                  </span>
+                  <span className="token-details__link-label">{link.label}</span>
+                </a>
+              ))}
+            </div>
           </article>
         ) : null}
       </section>
