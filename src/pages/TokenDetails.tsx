@@ -34,6 +34,8 @@ const shortenAddress = (address: string) => {
 };
 
 const buildExplorerUrl = (address: string) => `https://explorador.scolcoin.com/token/${address}`;
+const nativeAccountsExplorerUrl = 'https://explorador.scolcoin.com/accounts';
+const nativeAccountsExplorerDisplay = nativeAccountsExplorerUrl.replace(/^https?:\/\//, '');
 
 const buildPriceRows = (priceData: TokenPrice | null, token: Token, locale: string) => {
   const sources = [priceData, token.priceData ?? null];
@@ -310,11 +312,20 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         return `${token.change24h >= 0 ? '+' : '-'}${formatted}`;
       })()
     : null;
-  const explorerUrl = useMemo(() => buildExplorerUrl(token.address), [token.address]);
-  const shortenedAddress = useMemo(() => shortenAddress(token.address), [token.address]);
+  const explorerUrl = useMemo(
+    () => (token.isNative ? nativeAccountsExplorerUrl : buildExplorerUrl(token.address)),
+    [token.address, token.isNative],
+  );
+  const explorerDisplay = useMemo(
+    () => (token.isNative ? nativeAccountsExplorerDisplay : shortenAddress(token.address)),
+    [token.address, token.isNative],
+  );
   const explorerLabel = useMemo(
-    () => `${t('details.openInExplorer', { token: token.symbol })}. ${token.address}`,
-    [t, token.address, token.symbol],
+    () =>
+      token.isNative
+        ? t('details.openAccountsExplorer')
+        : `${t('details.openInExplorer', { token: token.symbol })}. ${token.address}`,
+    [t, token.address, token.isNative, token.symbol],
   );
 
   return (
@@ -427,9 +438,16 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
 
         <article className="token-details__card">
           <h3>{t('details.contract')}</h3>
+          {token.isNative ? (
+            <div className="token-details__native-highlight">
+              <span className="token-details__native-chip">{t('details.nativeHighlightBadge')}</span>
+              <h4 className="token-details__native-title">{t('details.nativeHighlightTitle')}</h4>
+              <p className="token-details__native-description">{t('details.nativeHighlightDescription')}</p>
+            </div>
+          ) : null}
           <dl className="token-details__metrics">
             <div className="token-details__metric">
-              <dt>{t('details.address')}</dt>
+              <dt>{t(token.isNative ? 'details.accountsExplorer' : 'details.address')}</dt>
               <dd>
                 <a
                   className="token-details__address-link"
@@ -437,9 +455,9 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
                   target="_blank"
                   rel="noreferrer noopener"
                   aria-label={explorerLabel}
-                  title={token.address}
+                  title={token.isNative ? explorerUrl : token.address}
                 >
-                  <code className="token-details__address-code">{shortenedAddress}</code>
+                  <code className="token-details__address-code">{explorerDisplay}</code>
                   <span aria-hidden="true" className="token-details__external-icon">
                     <svg viewBox="0 0 16 16" focusable="false">
                       <path
