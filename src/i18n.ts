@@ -51,6 +51,12 @@ const resources = {
         website: 'Official website',
         openInExplorer: 'Open {{token}} in Scolcoin Explorer',
         visitWebsite: 'Visit official website',
+        nativeHighlightBadge: 'Native currency',
+        nativeHighlightTitle: "The network's native currency",
+        nativeHighlightDescription:
+          'SCOL powers every transaction on Scolcoin. As the base coin it does not rely on a smart-contract address.',
+        accountsExplorer: 'Accounts explorer',
+        openAccountsExplorer: 'Open the Scolcoin accounts explorer',
         pricesUnavailable: 'Live prices will appear once the oracle responds.',
         oracleStatus: {
           online: 'Oracle online',
@@ -122,6 +128,12 @@ const resources = {
         website: 'Sitio web oficial',
         openInExplorer: 'Abrir {{token}} en el explorador de Scolcoin',
         visitWebsite: 'Sitio web oficial',
+        nativeHighlightBadge: 'Moneda nativa',
+        nativeHighlightTitle: 'La moneda nativa de la red',
+        nativeHighlightDescription:
+          'SCOL impulsa cada transacción en Scolcoin. Al ser la moneda base no depende de una dirección de smart contract.',
+        accountsExplorer: 'Explorador de cuentas',
+        openAccountsExplorer: 'Abrir el explorador de cuentas de Scolcoin',
         pricesUnavailable: 'Los precios en vivo aparecerán cuando el oráculo responda.',
         oracleStatus: {
           online: 'Oráculo en línea',
@@ -193,6 +205,12 @@ const resources = {
         website: 'Site officiel',
         openInExplorer: 'Ouvrir dans l’explorateur Scolcoin',
         visitWebsite: 'Site officiel',
+        nativeHighlightBadge: 'Actif natif',
+        nativeHighlightTitle: 'La monnaie native du réseau',
+        nativeHighlightDescription:
+          'SCOL alimente chaque transaction sur Scolcoin. En tant que monnaie de base, elle ne dépend pas d’une adresse de smart contract.',
+        accountsExplorer: 'Explorateur de comptes',
+        openAccountsExplorer: 'Ouvrir l’explorateur de comptes Scolcoin',
         pricesUnavailable: 'Les prix en direct apparaîtront lorsque l’oracle répondra.',
         oracleStatus: {
           online: 'Oracle en ligne',
@@ -264,6 +282,12 @@ const resources = {
         website: 'आधिकारिक वेबसाइट',
         openInExplorer: '{{token}} को Scolcoin एक्सप्लोरर में खोलें',
         visitWebsite: 'आधिकारिक वेबसाइट',
+        nativeHighlightBadge: 'मूल मुद्रा',
+        nativeHighlightTitle: 'नेटवर्क की मूल मुद्रा',
+        nativeHighlightDescription:
+          'SCOL सकोलकॉइन नेटवर्क पर हर लेन-देन को शक्ति देता है। आधार सिक्का होने के कारण इसे स्मार्ट कॉन्ट्रैक्ट पते की आवश्यकता नहीं होती।',
+        accountsExplorer: 'खाता एक्सप्लोरर',
+        openAccountsExplorer: 'Scolcoin खातों का एक्सप्लोरर खोलें',
         pricesUnavailable: 'ओरेकल के उत्तर देने पर लाइव मूल्य दिखाई देंगे.',
         oracleStatus: {
           online: 'ओरेकल ऑनलाइन',
@@ -335,6 +359,12 @@ const resources = {
         website: '官方网站',
         openInExplorer: '在 Scolcoin 浏览器中打开 {{token}}',
         visitWebsite: '官方网站',
+        nativeHighlightBadge: '原生货币',
+        nativeHighlightTitle: '网络的原生货币',
+        nativeHighlightDescription:
+          'SCOL 为 Scolcoin 网络上的每笔交易提供动力，作为基础代币无需智能合约地址。',
+        accountsExplorer: '账户浏览器',
+        openAccountsExplorer: '打开 Scolcoin 账户浏览器',
         pricesUnavailable: '当预言机返回数据时，将显示实时价格。',
         oracleStatus: {
           online: '预言机在线',
@@ -405,6 +435,12 @@ const resources = {
         website: 'Официальный сайт',
         openInExplorer: 'Открыть {{token}} в обозревателе Scolcoin',
         visitWebsite: 'Официальный сайт',
+        nativeHighlightBadge: 'Базовая монета',
+        nativeHighlightTitle: 'Нативная валюта сети',
+        nativeHighlightDescription:
+          'SCOL обеспечивает каждую транзакцию в сети Scolcoin. Как базовая монета, она не привязана к адресу смарт-контракта.',
+        accountsExplorer: 'Обозреватель счетов',
+        openAccountsExplorer: 'Открыть обозреватель счетов Scolcoin',
         pricesUnavailable: 'Онлайн-цены появятся, когда оракул предоставит данные.',
         oracleStatus: {
           online: 'Оракул в сети',
@@ -476,6 +512,12 @@ const resources = {
         website: 'الموقع الرسمي',
         openInExplorer: 'افتح {{token}} في مستكشف Scolcoin',
         visitWebsite: 'الموقع الرسمي',
+        nativeHighlightBadge: 'العملة الأصلية',
+        nativeHighlightTitle: 'العملة الأصلية للشبكة',
+        nativeHighlightDescription:
+          'تدعم SCOL كل معاملة على شبكة Scolcoin، وبصفتها العملة الأساسية فهي لا تعتمد على عنوان عقد ذكي.',
+        accountsExplorer: 'مستكشف الحسابات',
+        openAccountsExplorer: 'افتح مستكشف حسابات Scolcoin',
         pricesUnavailable: 'ستظهر الأسعار المباشرة عند استجابة الأوركل.',
         oracleStatus: {
           online: 'الأوراكل متصل',
@@ -547,6 +589,12 @@ const resources = {
         website: 'Offizielle Website',
         openInExplorer: '{{token}} im Scolcoin-Explorer öffnen',
         visitWebsite: 'Offizielle Website',
+        nativeHighlightBadge: 'Native Währung',
+        nativeHighlightTitle: 'Die native Währung des Netzwerks',
+        nativeHighlightDescription:
+          'SCOL treibt jede Transaktion im Scolcoin-Netzwerk an. Als Basis-Coin benötigt er keine Smart-Contract-Adresse.',
+        accountsExplorer: 'Konten-Explorer',
+        openAccountsExplorer: 'Scolcoin-Konten-Explorer öffnen',
         pricesUnavailable: 'Live-Preise werden angezeigt, sobald das Oracle antwortet.',
         oracleStatus: {
           online: 'Orakel online',
