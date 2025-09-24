@@ -1,7 +1,7 @@
 import { priceContractAddress, rpcUrls } from '../config/environment.ts';
 import type { TokenPrice } from '../types/price.ts';
 
-const PRECIOS_SELECTOR = '0x1002aa9d';
+const PRECIOS_SELECTOR = '0x2a18cda2';
 const DECIMALS = 10n;
 const WORD_SIZE = 64;
 const ADDRESS_LENGTH = 40;
