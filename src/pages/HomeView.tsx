@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import type { Token } from '../types/token.ts';
 import TokenTable from '../components/TokenTable.tsx';
@@ -24,6 +24,47 @@ export const HomeView = ({ onTokenSelect }: HomeViewProps) => {
         : fallbackUpdate,
     [fallbackUpdate, i18n.language, lastUpdated],
   );
+
+  const handleAddNetwork = useCallback(async () => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    type EthereumProvider = {
+      request?: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+    };
+
+    const { ethereum } = window as typeof window & { ethereum?: EthereumProvider };
+
+    if (!ethereum?.request) {
+      window.alert(t('stats.networkUnavailable'));
+      return;
+    }
+
+    try {
+      await ethereum.request({
+        method: 'wallet_addEthereumChain',
+        params: [
+          {
+            chainId: '0xffaa',
+            chainName: 'Scolcoin Mainnet',
+            nativeCurrency: {
+              name: 'Scolcoin',
+              symbol: 'SCOL',
+              decimals: 18,
+            },
+            rpcUrls: ['https://mainnet-rpc.scolcoin.com'],
+            blockExplorerUrls: ['https://explorador.scolcoin.com/'],
+            iconUrls: ['https://scolcoin.com/i/network_scol.svg'],
+          },
+        ],
+      });
+      window.alert(t('stats.networkSuccess'));
+    } catch (error) {
+      console.error('Failed to add Scolcoin network', error);
+      window.alert(t('stats.networkError'));
+    }
+  }, [t]);
 
   const statCards = useMemo(
     () => [
@@ -66,6 +107,41 @@ export const HomeView = ({ onTokenSelect }: HomeViewProps) => {
         label: t('stats.lastUpdated'),
       },
       {
+        key: 'network',
+        icon: (
+          <img
+            src="https://scolcoin.com/i/network_scol.svg"
+            alt={t('stats.networkAlt')}
+            width={28}
+            height={28}
+            loading="lazy"
+          />
+        ),
+        value: t('stats.networkValue'),
+        label: t('stats.networkLabel'),
+        description: t('stats.networkDescription'),
+        action: (
+          <button type="button" className="app__stat-action" onClick={handleAddNetwork}>
+            <svg
+              className="app__stat-action-icon"
+              viewBox="0 0 24 24"
+              focusable="false"
+              aria-hidden="true"
+            >
+              <path
+                d="m7 12 3.5 3.5L17 9"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+            {t('stats.networkButton')}
+          </button>
+        ),
+      },
+      {
         key: 'disclaimer',
         icon: (
           <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
@@ -88,7 +164,7 @@ export const HomeView = ({ onTokenSelect }: HomeViewProps) => {
         isWide: true,
       },
     ],
-    [formattedUpdate, i18n.language, t, tokenCount],
+    [formattedUpdate, handleAddNetwork, i18n.language, t, tokenCount],
   );
 
   return (
@@ -105,6 +181,7 @@ export const HomeView = ({ onTokenSelect }: HomeViewProps) => {
               {stat.description ? (
                 <p className="app__stat-description">{stat.description}</p>
               ) : null}
+              {stat.action ? <div className="app__stat-actions">{stat.action}</div> : null}
             </div>
           </article>
         ))}
