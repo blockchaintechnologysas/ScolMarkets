@@ -335,6 +335,45 @@
   gap: 18px;
 }
 
+.token-details__card--qr {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+}
+
+.token-details__qr-description {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+}
+
+.token-details__qr-image {
+  width: min(220px, 100%);
+  background: var(--background-primary);
+  border-radius: 18px;
+  padding: 12px;
+  box-shadow: inset 0 0 0 1px var(--control-border);
+}
+
+.token-details__qr-address {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin: 0;
+  font-size: 0.9rem;
+  word-break: break-all;
+}
+
+.token-details__qr-address-label {
+  color: var(--text-muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+}
+
 .token-details__social-list {
   list-style: none;
   margin: 0;

@@ -241,6 +241,48 @@
   line-height: 1.5;
 }
 
+.app__stat-actions {
+  margin-top: 4px;
+}
+
+.app__stat-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: var(--accent-gradient);
+  color: var(--accent-contrast);
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.app__stat-action:hover,
+.app__stat-action:focus-visible {
+  transform: translateY(-1px);
+  box-shadow: var(--accent-shadow);
+  opacity: 0.95;
+  outline: none;
+}
+
+.app__stat-action:active {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.app__stat-action-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.app__stat-icon img {
+  width: 28px;
+  height: 28px;
+}
+
 .app__footer {
   text-align: center;
   padding: 16px 0 24px;

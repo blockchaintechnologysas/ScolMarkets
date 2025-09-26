@@ -83,6 +83,7 @@ const defaultExplorerHomepageUrl = 'https://explorador.scolcoin.com/';
 const priceDashboardUrl = 'https://price.scolcoin.com/';
 const scolWalletUrl = 'https://wallet.scolcoin.com/';
 
+
 const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
   switch (type) {
     case 'website':
@@ -719,6 +720,21 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
   const shouldRenderContractCard =
     !token.isNative || Boolean(derivedPriceData?.wallet) || hasNativeContractInfo;
 
+  const qrImageUrl = useMemo(() => {
+    if (token.isNative || !token.address) {
+      return null;
+    }
+
+    const params = new URLSearchParams({
+      size: '240x240',
+      data: token.address,
+      format: 'svg',
+      margin: '0',
+    });
+
+    return `${qrGeneratorBaseUrl}?${params.toString()}`;
+  }, [token.address, token.isNative]);
+
   const websiteLinks = useMemo<WebsiteLink[]>(() => {
     if (!token) {
       return [];
@@ -1156,6 +1172,23 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
                 </div>
               ) : null}
             </dl>
+          </article>
+        ) : null}
+
+        {qrImageUrl ? (
+          <article className="token-details__card token-details__card--qr">
+            <h3>{t('details.contractQr')}</h3>
+            <p className="token-details__qr-description">{t('details.contractQrDescription')}</p>
+            <img
+              className="token-details__qr-image"
+              src={qrImageUrl}
+              alt={t('details.contractQrAlt', { token: token.symbol })}
+              loading="lazy"
+            />
+            <p className="token-details__qr-address">
+              <span className="token-details__qr-address-label">{t('details.address')}</span>
+              <code>{token.address}</code>
+            </p>
           </article>
         ) : null}
 
