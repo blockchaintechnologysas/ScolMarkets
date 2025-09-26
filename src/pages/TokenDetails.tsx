@@ -1,7 +1,14 @@
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
 import { useTranslation } from 'react-i18next';
-import { platformName } from '../config/environment.ts';
+import {
+  blockExplorerUrl,
+  chainId,
+  nativeCurrency,
+  networkName,
+  platformName,
+  rpcUrls,
+} from '../config/environment.ts';
 import { useTokenDetails } from '../hooks/useTokensData.ts';
 import type { Token, TokenSocialKey } from '../types/token.ts';
 import type { TokenPrice } from '../types/price.ts';
@@ -68,12 +75,13 @@ const shortenAddress = (address: string) => {
   return `${trimmed.slice(0, 6)}…${trimmed.slice(-4)}`;
 };
 
-const buildExplorerUrl = (address: string) => `https://explorador.scolcoin.com/token/${address}`;
-const nativeAccountsExplorerUrl = 'https://explorador.scolcoin.com/accounts';
+const buildExplorerUrl = (address: string, baseUrl: string = defaultExplorerHomepageUrl) => {
+  const trimmedBase = baseUrl.replace(/\/+$/, '');
+  return `${trimmedBase}/token/${address}`;
+};
+const defaultExplorerHomepageUrl = 'https://explorador.scolcoin.com/';
 const priceDashboardUrl = 'https://price.scolcoin.com/';
 const scolWalletUrl = 'https://wallet.scolcoin.com/';
-const explorerHomepageUrl = 'https://explorador.scolcoin.com/';
-const nativeAccountsExplorerDisplay = nativeAccountsExplorerUrl.replace(/^https?:\/\//, '');
 
 const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
   switch (type) {
@@ -147,6 +155,121 @@ const WebsiteLinkIcon = ({ type }: { type: WebsiteLink['icon'] }) => {
       return null;
   }
 };
+
+type AddEthereumChainParameter = {
+  chainId: string;
+  chainName: string;
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  rpcUrls: string[];
+  blockExplorerUrls?: string[];
+};
+
+type EthereumProvider = {
+  isMetaMask?: boolean;
+  request?: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+};
+
+type MetaMaskFeedback = 'success' | 'error' | 'unavailable' | 'config';
+
+const MetaMaskIcon = () => (
+  <svg viewBox="0 0 36 36" focusable="false" aria-hidden="true">
+    <path
+      d="m8.1 4.5 7.7 5.6-1.4-3.3Z"
+      fill="#E17726"
+      stroke="#E17726"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m27.9 4.5-7.6 5.6 1.3-3.3Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m8 4.5 7.4 12-0.2-6.4Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m28 4.5-7.6 12 0.2-6.4Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m15.2 16.5 5.6 0-0.5 3.8-5-3.8Z"
+      fill="#E17726"
+      stroke="#E17726"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m14.8 22 5.4 0.3-5.9 4.4Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m21.3 22.3 5.4-0.3-5-3.5Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m11.1 17.2 3.9-0.7-1.4 3.9Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m24.9 16.5-3.8 3.9 1.4-3.9Z"
+      fill="#E27625"
+      stroke="#E27625"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m15.2 26.6 2.3-1.1-1.9-1.1Z"
+      fill="#D5BFB2"
+      stroke="#D5BFB2"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m20.8 26.6-2.3-1.1 1.9-1.1Z"
+      fill="#D5BFB2"
+      stroke="#D5BFB2"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m17.5 25.5-2.3 1.1 0.2-1.9Z"
+      fill="#233447"
+      stroke="#233447"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+    <path
+      d="m18.5 25.5 2.3 1.1-0.1-1.9Z"
+      fill="#233447"
+      stroke="#233447"
+      strokeLinejoin="round"
+      strokeWidth="0.5"
+    />
+  </svg>
+);
 
 const buildPriceRows = (
   priceData: TokenPrice | null,
@@ -561,13 +684,28 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
         return `${token.change24h >= 0 ? '+' : '-'}${formatted}`;
       })()
     : null;
+  const resolvedExplorerHomepageUrl = useMemo(
+    () => sanitizeUrl(blockExplorerUrl) ?? defaultExplorerHomepageUrl,
+    [blockExplorerUrl],
+  );
+  const nativeAccountsExplorerUrl = useMemo(
+    () => `${resolvedExplorerHomepageUrl.replace(/\/+$/, '')}/accounts`,
+    [resolvedExplorerHomepageUrl],
+  );
+  const nativeAccountsExplorerDisplay = useMemo(
+    () => nativeAccountsExplorerUrl.replace(/^https?:\/\//, ''),
+    [nativeAccountsExplorerUrl],
+  );
   const explorerUrl = useMemo(
-    () => (token.isNative ? nativeAccountsExplorerUrl : buildExplorerUrl(token.address)),
-    [token.address, token.isNative],
+    () =>
+      token.isNative
+        ? nativeAccountsExplorerUrl
+        : buildExplorerUrl(token.address, resolvedExplorerHomepageUrl),
+    [nativeAccountsExplorerUrl, resolvedExplorerHomepageUrl, token.address, token.isNative],
   );
   const explorerDisplay = useMemo(
     () => (token.isNative ? nativeAccountsExplorerDisplay : shortenAddress(token.address)),
-    [token.address, token.isNative],
+    [nativeAccountsExplorerDisplay, token.address, token.isNative],
   );
   const explorerLabel = useMemo(
     () =>
@@ -617,7 +755,7 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
       });
     }
 
-    const explorerUrl = sanitizeUrl(explorerHomepageUrl);
+    const explorerUrl = sanitizeUrl(resolvedExplorerHomepageUrl);
     if (explorerUrl) {
       links.push({
         key: 'explorer',
@@ -628,9 +766,103 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
     }
 
     return links;
-  }, [t, token]);
+  }, [resolvedExplorerHomepageUrl, t, token]);
 
   const shouldRenderWebsiteSection = websiteLinks.some((link) => link.key === 'official');
+
+  const sanitizedRpcUrls = useMemo(
+    () =>
+      rpcUrls
+        .map((url) => (typeof url === 'string' ? url.trim() : ''))
+        .filter((url) => url.length > 0),
+    [rpcUrls],
+  );
+  const primaryRpcEndpoint = sanitizedRpcUrls[0] ?? '';
+  const fallbackRpcEndpoints = sanitizedRpcUrls.slice(1);
+  const explorerHomepageDisplay = resolvedExplorerHomepageUrl.replace(/^https?:\/\//, '');
+  const normalizedExplorerHomepageUrl = sanitizeUrl(resolvedExplorerHomepageUrl);
+  const [isAddingToMetaMask, setIsAddingToMetaMask] = useState(false);
+  const [metaMaskFeedback, setMetaMaskFeedback] = useState<MetaMaskFeedback | null>(null);
+  const metaMaskChainConfig = useMemo<AddEthereumChainParameter | null>(() => {
+    if (!chainId || sanitizedRpcUrls.length === 0) {
+      return null;
+    }
+
+    const rpcEndpoints = sanitizedRpcUrls;
+    const explorerUrls = (() => {
+      const sanitized = sanitizeUrl(resolvedExplorerHomepageUrl);
+      return sanitized ? [sanitized] : undefined;
+    })();
+
+    return {
+      chainId,
+      chainName: networkName,
+      nativeCurrency: {
+        name: nativeCurrency.name,
+        symbol: nativeCurrency.symbol,
+        decimals: nativeCurrency.decimals,
+      },
+      rpcUrls: rpcEndpoints,
+      blockExplorerUrls: explorerUrls,
+    };
+  }, [chainId, nativeCurrency.decimals, nativeCurrency.name, nativeCurrency.symbol, networkName, resolvedExplorerHomepageUrl, sanitizedRpcUrls]);
+
+  const ethereumProvider: EthereumProvider | null =
+    typeof window !== 'undefined'
+      ? ((window as typeof window & { ethereum?: EthereumProvider }).ethereum ?? null)
+      : null;
+
+  const canRequestMetaMask = Boolean(metaMaskChainConfig && ethereumProvider?.request);
+  const metaMaskStatus = metaMaskFeedback ?? (!metaMaskChainConfig ? 'config' : !ethereumProvider?.request ? 'unavailable' : null);
+  const metaMaskMessage =
+    metaMaskStatus === 'success'
+      ? t('details.walletSetup.metamaskSuccess')
+      : metaMaskStatus === 'error'
+      ? t('details.walletSetup.metamaskError')
+      : metaMaskStatus === 'unavailable'
+      ? t('details.walletSetup.metamaskUnavailable')
+      : metaMaskStatus === 'config'
+      ? t('details.walletSetup.metamaskConfigError')
+      : null;
+  const metaMaskButtonLabel = isAddingToMetaMask
+    ? t('details.walletSetup.buttonLoading')
+    : t('details.walletSetup.button');
+  const isMetaMaskButtonDisabled = isAddingToMetaMask || !canRequestMetaMask;
+  const metaMaskFeedbackModifier =
+    metaMaskStatus === 'success' ? 'success' : metaMaskStatus === 'error' ? 'error' : null;
+
+  const handleAddToMetaMask = async () => {
+    if (!metaMaskChainConfig) {
+      setMetaMaskFeedback('config');
+      return;
+    }
+
+    if (!ethereumProvider?.request) {
+      setMetaMaskFeedback('unavailable');
+      return;
+    }
+
+    setIsAddingToMetaMask(true);
+    setMetaMaskFeedback(null);
+
+    try {
+      await ethereumProvider.request({
+        method: 'wallet_addEthereumChain',
+        params: [metaMaskChainConfig],
+      });
+      setMetaMaskFeedback('success');
+    } catch (error) {
+      console.warn('Unable to add network to MetaMask', error);
+      setMetaMaskFeedback('error');
+    } finally {
+      setIsAddingToMetaMask(false);
+    }
+  };
+
+  useEffect(() => {
+    setMetaMaskFeedback(null);
+    setIsAddingToMetaMask(false);
+  }, [token.symbol]);
 
   return (
     <main className="token-details" aria-live="polite">
@@ -691,6 +923,81 @@ export const TokenDetails = ({ symbol, onBack }: TokenDetailsProps) => {
           </div>
         </div>
       </section>
+
+      <article className="token-details__card token-details__card--wallet">
+        <div className="token-details__wallet-info">
+          <img
+            src={token.logo}
+            alt={`${token.name} logo`}
+            className="token-details__wallet-logo"
+            loading="lazy"
+          />
+          <div>
+            <h3 className="token-details__wallet-title">{t('details.walletSetup.title', { network: networkName })}</h3>
+          </div>
+        </div>
+        <div className="token-details__wallet-actions">
+          <div className="token-details__wallet-cta">
+            <button
+              type="button"
+              className="token-details__wallet-button"
+              onClick={handleAddToMetaMask}
+              disabled={isMetaMaskButtonDisabled}
+            >
+              <span
+                aria-hidden="true"
+                className="token-details__wallet-button-icon token-details__wallet-button-icon--metamask"
+              >
+                <MetaMaskIcon />
+              </span>
+              {metaMaskButtonLabel}
+            </button>
+            {metaMaskMessage ? (
+              <p
+                className={`token-details__wallet-feedback${
+                  metaMaskFeedbackModifier ? ` token-details__wallet-feedback--${metaMaskFeedbackModifier}` : ''
+                }`}
+                role={metaMaskStatus === 'error' ? 'alert' : undefined}
+              >
+                {metaMaskMessage}
+              </p>
+            ) : null}
+          </div>
+          <div className="token-details__wallet-resources">
+            {primaryRpcEndpoint ? (
+              <div className="token-details__wallet-resource">
+                <span className="token-details__wallet-resource-label">{t('details.walletSetup.rpcLabel')}</span>
+                <code className="token-details__wallet-resource-value">{primaryRpcEndpoint}</code>
+              </div>
+            ) : null}
+            {fallbackRpcEndpoints.length > 0 ? (
+              <div className="token-details__wallet-resource">
+                <span className="token-details__wallet-resource-label">{t('details.walletSetup.moreRpcLabel')}</span>
+                <ul className="token-details__wallet-rpc-list">
+                  {fallbackRpcEndpoints.map((url) => (
+                    <li key={url}>
+                      <code>{url}</code>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ) : null}
+            {normalizedExplorerHomepageUrl ? (
+              <div className="token-details__wallet-resource">
+                <span className="token-details__wallet-resource-label">{t('details.walletSetup.explorerLabel')}</span>
+                <a
+                  href={normalizedExplorerHomepageUrl}
+                  target="_blank"
+                  rel="noreferrer noopener"
+                  className="token-details__wallet-explorer"
+                >
+                  <code>{explorerHomepageDisplay}</code>
+                </a>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </article>
 
       {isLoading ? <p className="app__status app__status--loading">{t('status.loading')}</p> : null}
       {errorKey ? <p className="app__status app__status--error">{t(errorKey)}</p> : null}
