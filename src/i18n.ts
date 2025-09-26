@@ -1,6 +1,9 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
+const currentYear = new Date().getFullYear();
+const footerText = `Scolcoin Copyright © 2018 - ${currentYear}. All rights reserved. Create ♥ by Blockchain Technology S.A.S.`;
+
 const resources = {
   en: {
     translation: {
@@ -129,7 +132,7 @@ const resources = {
           btc: 'Bitcoin',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   es: {
@@ -259,7 +262,7 @@ const resources = {
           btc: 'Bitcoin',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   pt: {
@@ -389,7 +392,7 @@ const resources = {
           btc: 'Bitcoin',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   fr: {
@@ -519,7 +522,7 @@ const resources = {
           btc: 'Bitcoin',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   hi: {
@@ -649,7 +652,7 @@ const resources = {
           btc: 'बिटकॉइन',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   zh: {
@@ -778,7 +781,7 @@ const resources = {
           btc: '比特币',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   ja: {
@@ -908,7 +911,7 @@ const resources = {
           btc: 'ビットコイン',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   ru: {
@@ -1038,7 +1041,7 @@ const resources = {
           btc: 'Биткоин',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   ar: {
@@ -1168,7 +1171,7 @@ const resources = {
           btc: 'بيتكوين',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
   de: {
@@ -1298,7 +1301,7 @@ const resources = {
           btc: 'Bitcoin',
         },
       },
-      footer: 'Scolcoin Copyright © 2018 - 2026. All rights reserved. Create ♥ by Blockchain Technology S.A.S.',
+      footer: footerText,
     },
   },
 };
