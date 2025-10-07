@@ -7,6 +7,7 @@ import {
   nativeCurrency,
   networkName,
   platformName,
+  qrGeneratorBaseUrl,
   rpcUrls,
 } from '../config/environment.ts';
 import { useTokenDetails } from '../hooks/useTokensData.ts';

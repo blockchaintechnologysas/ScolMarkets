@@ -36,6 +36,9 @@ const parseNativeCurrency = () => {
 export const chainId = parseChainId();
 export const nativeCurrency = parseNativeCurrency();
 export const blockExplorerUrl = (import.meta.env.VITE_BLOCK_EXPLORER_URL ?? 'https://explorador.scolcoin.com/').trim();
+export const qrGeneratorBaseUrl = (
+  import.meta.env.VITE_QR_GENERATOR_BASE_URL ?? 'https://api.qrserver.com/v1/create-qr-code/'
+).trim();
 
 const defaultRpcUrls = [
   'https://mainnet-rpc.scolcoin.com',
